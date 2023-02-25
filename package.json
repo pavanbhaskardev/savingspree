@@ -1,0 +1,39 @@
+{
+  "name": "budget-tracker-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.17",
+    "@chakra-ui/react": "^2.4.9",
+    "@dicebear/collection": "^5.3.4",
+    "@dicebear/core": "^5.3.4",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/inter": "^4.5.15",
+    "@fontsource/spline-sans": "^4.5.14",
+    "@hookform/resolvers": "^2.9.11",
+    "@next/font": "13.1.6",
+    "axios": "^1.2.6",
+    "chart.js": "^4.2.1",
+    "eslint": "8.32.0",
+    "eslint-config-next": "13.1.6",
+    "firebase": "^9.16.0",
+    "formik": "^2.2.9",
+    "framer-motion": "^8.5.5",
+    "moment": "^2.29.4",
+    "next": "13.1.6",
+    "react": "18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.0",
+    "react-icons": "^4.7.1",
+    "react-spinners": "^0.13.8",
+    "yup": "^1.0.0"
+  }
+}
