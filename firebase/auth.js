@@ -8,9 +8,12 @@ import {
   updateProfile,
   GoogleAuthProvider,
   sendPasswordResetEmail,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 import { auth } from "./firebase-config";
 import { useRouter } from "next/router";
+import { useMediaQuery } from "@chakra-ui/react";
 
 const AppContext = createContext();
 
@@ -26,10 +29,26 @@ const AppProvider = ({ children }) => {
   const [successStatus, setSuccessStatus] = useState(false);
   const router = useRouter();
   const provider = new GoogleAuthProvider();
+  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
+
+  const signinUserWithRedirect = async () => {
+    try {
+      const response = await getRedirectResult(auth);
+      console.log("response", response);
+      setUserData(response?.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log("userData", userData);
 
   useEffect(() => {
+    if (isSmallerThan768) {
+      console.log("i'm hitted");
+      signinUserWithRedirect();
+    }
     setIsLoading(true);
-
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUserData(currentUser);
@@ -89,11 +108,16 @@ const AppProvider = ({ children }) => {
   };
 
   const signInWithGoogle = async () => {
-    try {
-      const response = await signInWithPopup(auth, provider);
-      setUserData(response.user);
-    } catch (err) {
-      console.log("google signin error", err.message);
+    // try {
+    if (isSmallerThan768) {
+      await signInWithRedirect(auth, provider);
+    } else {
+      try {
+        const response = await signInWithPopup(auth, provider);
+        setUserData(response.user);
+      } catch (error) {
+        console.log("google signin error", error.message);
+      }
     }
   };
 

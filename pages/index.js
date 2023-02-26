@@ -84,7 +84,7 @@ export default function Home() {
             >
               <VStack align="start" pb={{ base: "20" }}>
                 <Heading as="h1" size="3xl" mb={2} fontWeight="extrabold">
-                  Track. Analize. Manage.
+                  Track. Analyze. Manage.
                 </Heading>
                 <Text pb={1} color={colorMode === "dark" && "gray.500"}>
                   Savingspree is a platform for you, to track, visualize &

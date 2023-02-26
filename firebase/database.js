@@ -41,7 +41,6 @@ const DatabaseProvider = ({ children }) => {
   const [donutExpensesAmount, setDonutExpensesAmount] = useState([]);
   const [donutIncomeCategory, setDonutIncomeCategory] = useState([]);
   const [donutIncomeAmount, setDonutIncomeAmount] = useState([]);
-
   const [spinnerStatus, setSpinnerStatus] = useState(false);
 
   // const toast = useToast();
@@ -50,7 +49,7 @@ const DatabaseProvider = ({ children }) => {
   const allPlansRef = collection(db, "data");
 
   //create a new plan
-  const createNewPlan = async (planName, uid, time) => {
+  const createNewPlan = async (planName, uid, time, setModalStatus) => {
     setIsLoading(true);
     try {
       const response = await addDoc(allPlansRef, {
@@ -59,6 +58,7 @@ const DatabaseProvider = ({ children }) => {
         createdOn: time,
       });
       setUserAction((current) => !current);
+      setModalStatus(false);
     } catch (error) {
       console.log(error);
     }
@@ -66,13 +66,14 @@ const DatabaseProvider = ({ children }) => {
   };
 
   //update plan name
-  const updatePlanName = async (id, newPlanName) => {
+  const updatePlanName = async (id, newPlanName, setModalStatus) => {
     setIsLoading(true);
     const updatePlanRef = doc(db, "data", id);
     try {
       const response = await updateDoc(updatePlanRef, {
         planName: newPlanName,
       });
+      setModalStatus(false);
       setUserAction((current) => !current);
     } catch (error) {
       console.log(error);
@@ -113,12 +114,13 @@ const DatabaseProvider = ({ children }) => {
   };
 
   // add transaction
-  const addTransaction = async (transactionData, docId) => {
+  const addTransaction = async (transactionData, docId, setModalStatus) => {
     setIsLoading(true);
     const docRef = collection(db, "data", docId, "newList");
     try {
       const response = await addDoc(docRef, transactionData);
       setUserAction((current) => !current);
+      setModalStatus(false);
     } catch (error) {
       console.log(error);
     }

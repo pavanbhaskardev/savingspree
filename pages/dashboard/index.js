@@ -40,6 +40,7 @@ import { BeatLoader } from "react-spinners";
 import { useColorMode } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react";
 import Head from "next/head";
+import CountIndicator from "@/components/CountIndicator";
 
 const Dashboard = () => {
   const [allUserDetails, setAllUserDetails] = useState({});
@@ -47,9 +48,12 @@ const Dashboard = () => {
     status: false,
     message: "",
   });
+  //this was added to close the modal on successfull submission
+  const [modalStatus, setModalStatus] = useState(false);
   const [PlanNameEnteredByUser, setPlanNameEnteredByUser] = useState("");
   const [editPlanId, setEditPlanId] = useState({ status: false, id: "" });
   const { userData } = useUserContext();
+  const [charCount, setCharCount] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     getAllPlans,
@@ -65,19 +69,19 @@ const Dashboard = () => {
 
   const router = useRouter();
 
-  const [isLargerThan1024] = useMediaQuery("(min-width: 1024px)");
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
     if (!userData) {
       router.push("/");
     }
     setAllUserDetails(userData);
-    getAllPlans(userData.uid);
+    getAllPlans(userData?.uid);
   }, [userData, userAction]);
 
   const handleCreatePlan = () => {
     if (editPlanId.status === true) {
-      updatePlanName(editPlanId?.id, PlanNameEnteredByUser);
+      updatePlanName(editPlanId?.id, PlanNameEnteredByUser, setModalStatus);
       setEditPlanId({ status: false, id: "" });
       return;
     }
@@ -88,13 +92,14 @@ const Dashboard = () => {
       setPlanFeildValid({ status: true, message: "Plan name is required." });
       return;
     } else {
-      createNewPlan(planName, uid, time);
+      createNewPlan(planName, uid, time, setModalStatus);
     }
   };
 
   const handleUpdatePlan = (id, planName) => {
-    onOpen();
+    setModalStatus(true);
     setPlanNameEnteredByUser(planName);
+    setCharCount(planName.length);
     setEditPlanId({ status: true, id: id });
   };
 
@@ -121,7 +126,9 @@ const Dashboard = () => {
               leftIcon={<AddIcon />}
               colorScheme={colorMode === "light" ? "gray" : "blue"}
               variant="ghost"
-              onClick={onOpen}
+              onClick={() => {
+                setModalStatus(true);
+              }}
               bg={colorMode === "light" && "secondary"}
             >
               Create budget plan💰
@@ -149,7 +156,7 @@ const Dashboard = () => {
                           <Flex justifyContent="space-between">
                             <Text
                               fontSize={{ base: "lg", lg: "xl" }}
-                              width={!isLargerThan1024 && "200px"}
+                              width={!isLargerThan768 && "200px"}
                               whiteSpace="nowrap"
                               overflow="hidden"
                               textOverflow="ellipsis"
@@ -227,10 +234,11 @@ const Dashboard = () => {
               )}
 
               <Modal
-                isOpen={isOpen}
+                isOpen={modalStatus}
                 onClose={() => {
-                  onClose();
+                  setModalStatus(false);
                   setPlanNameEnteredByUser("");
+                  setCharCount(0);
                 }}
                 size="md"
               >
@@ -245,9 +253,12 @@ const Dashboard = () => {
                         maxLength={30}
                         value={PlanNameEnteredByUser}
                         onChange={(e) => {
+                          setCharCount(e.target.value.length);
                           setPlanNameEnteredByUser(e.target.value);
                         }}
                       />
+                      {/* indicates the length of the plan name. */}
+                      <CountIndicator charCount={charCount} value={30} />
                       <FormErrorMessage>
                         {planFeildValid.message}
                       </FormErrorMessage>
@@ -263,7 +274,15 @@ const Dashboard = () => {
                     >
                       Create
                     </Button>
-                    <Button variant="outline" onClick={onClose} ml={2}>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setModalStatus(false);
+                        setPlanNameEnteredByUser("");
+                        setCharCount(0);
+                      }}
+                      ml={2}
+                    >
                       cancel
                     </Button>
                   </ModalFooter>

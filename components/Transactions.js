@@ -31,6 +31,7 @@ import { Doughnut } from "react-chartjs-2";
 import { MdDelete } from "react-icons/md";
 import { BsThreeDots } from "react-icons/bs";
 import { BeatLoader } from "react-spinners";
+import { useMediaQuery } from "@chakra-ui/react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -51,6 +52,8 @@ const Transactions = () => {
   } = useDatabaseContext();
 
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
     const id = localStorage.getItem("docId");
@@ -97,6 +100,9 @@ const Transactions = () => {
     }).format(amount);
     return formattedCurrency;
   };
+
+  // checks if user total amount is positive or negative
+  const useTotalValue = userTotal.toString().slice(0, 1) === "-";
 
   return (
     <Box bg={colorMode === "light" && "primary"}>
@@ -167,7 +173,15 @@ const Transactions = () => {
                   <Skeleton height="20px" />
                 ) : (
                   <StatNumber
-                    color={colorMode === "light" ? "yellow.600" : "blue.400"}
+                    color={
+                      colorMode === "light"
+                        ? useTotalValue
+                          ? "red.500"
+                          : "yellow.600"
+                        : useTotalValue
+                        ? "red.500"
+                        : "blue.400"
+                    }
                     fontSize={{ md: "28px", lg: "32px" }}
                   >
                     {userTotal ? currencyFormmater(userTotal) : 0}
@@ -211,7 +225,13 @@ const Transactions = () => {
                           {moment(createdOn).format("MMM Do YY")}
                         </Text>
                       </Flex>
-                      <Text fontSize={{ base: "12px", sm: "13px", lg: "14px" }}>
+                      <Text
+                        fontSize={{ base: "12px", sm: "13px", lg: "14px" }}
+                        width={!isLargerThan768 && "150px"}
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                      >
                         {note}
                       </Text>
                     </Box>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Flex,
   Spacer,
@@ -42,9 +42,8 @@ const Navbar = () => {
   const { userData, isLoading, userLogOut } = useUserContext();
   const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
-  const [isLargerThan1024] = useMediaQuery("(min-width: 1024px)");
 
-  const { photoURL, displayName } = userData;
+  const [isLargerThan1024] = useMediaQuery("(min-width: 1024px)");
 
   const redirectUser = () => {
     if (!userData) {
@@ -142,8 +141,8 @@ const Navbar = () => {
               <PopoverTrigger>
                 <Avatar
                   size="sm"
-                  name={displayName}
-                  src={photoURL}
+                  name={userData?.displayName}
+                  src={userData?.photoURL}
                   cursor="pointer"
                 />
               </PopoverTrigger>
@@ -151,7 +150,7 @@ const Navbar = () => {
               <PopoverContent w="200px">
                 <PopoverBody>
                   <Text>Namaste 🙏</Text>
-                  <Heading size="md">{displayName}</Heading>
+                  <Heading size="md">{userData?.displayName}</Heading>
                 </PopoverBody>
               </PopoverContent>
             </Popover>
@@ -175,11 +174,15 @@ const Navbar = () => {
           <DrawerCloseButton zIndex={99999} />
           <DrawerHeader bg={colorMode === "light" && "primary"} zIndex={9999}>
             <HStack>
-              <Avatar size="sm" name={displayName} src={photoURL} />
+              <Avatar
+                size="sm"
+                name={userData?.displayName}
+                src={userData?.photoURL}
+              />
               <Box pl={2}>
                 <Text>Namaste 🙏</Text>
                 <Text fontSize="sm" color="gray.500">
-                  {displayName}
+                  {userData?.displayName}
                 </Text>
               </Box>
             </HStack>

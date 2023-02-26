@@ -36,5 +36,5 @@ export const transactionValidation = yup.object().shape({
     .required("Amount required")
     .positive("Amount can't be negative"),
   category: yup.string().required("Select a category"),
-  note: yup.string().max(20, "Maximum 20 characters"),
+  note: yup.string().max(30, "Maximum 30 characters"),
 });

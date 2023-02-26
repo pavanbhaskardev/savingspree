@@ -41,15 +41,18 @@ import Transactions from "@/components/Transactions";
 import Statistics from "@/components/Statistics";
 import { useColorMode } from "@chakra-ui/react";
 import Head from "next/head";
+import CountIndicator from "@/components/CountIndicator";
 
 const PlanName = () => {
   const router = useRouter();
   const [categoryValues, setCategoryValues] = useState([
     { category: "", value: "" },
   ]);
+  const [modalStatus, setModalStatus] = useState(false);
   const [ModalTitle, setModalTitle] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
   const [docId, setDocId] = useState("");
+  const [charCount, setCharCount] = useState(0);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialValues = {
@@ -157,8 +160,13 @@ const PlanName = () => {
     if (!docId) {
       return;
     }
+    reset();
     if (ModalTitle === "Income") {
-      addTransaction({ ...data, type: "income", time: new Date() }, docId);
+      addTransaction(
+        { ...data, type: "income", time: new Date() },
+        docId,
+        setModalStatus
+      );
     } else if (ModalTitle === "Expense") {
       const transactionData = {
         ...data,
@@ -166,7 +174,7 @@ const PlanName = () => {
         time: new Date(),
       };
       if (transactionData && docId) {
-        addTransaction(transactionData, docId);
+        addTransaction(transactionData, docId, setModalStatus);
       }
     }
   };
@@ -192,7 +200,7 @@ const PlanName = () => {
           <Spinner />
         </Center>
       ) : (
-        <Box bg={colorMode === "light" && "primary"} h="100%" pt={5}>
+        <Box bg={colorMode === "light" && "primary"} h="100svh" pt={5}>
           <Tabs
             variant="soft-rounded"
             colorScheme="blue"
@@ -229,9 +237,10 @@ const PlanName = () => {
                 <Transactions />
 
                 <Modal
-                  isOpen={isOpen}
+                  isOpen={modalStatus}
                   onClose={() => {
-                    onClose();
+                    setModalStatus(false);
+                    setCharCount(0);
                     reset();
                   }}
                   size="md"
@@ -284,7 +293,12 @@ const PlanName = () => {
                               resize="none"
                               id="note"
                               {...register("note")}
+                              onChange={(e) =>
+                                setCharCount(e.target.value.length)
+                              }
+                              maxLength={30}
                             />
+                            <CountIndicator charCount={charCount} value={30} />
                             <FormErrorMessage>
                               {errors?.note && errors?.note.message}
                             </FormErrorMessage>
@@ -304,7 +318,9 @@ const PlanName = () => {
                         <Button
                           variant="outline"
                           onClick={() => {
-                            onClose();
+                            setModalStatus(false);
+                            setCharCount(0);
+                            reset();
                           }}
                           ml={2}
                         >
@@ -330,8 +346,8 @@ const PlanName = () => {
                       width="50%"
                       onClick={() => {
                         setModalTitle("Income");
+                        setModalStatus(true);
                         setCategoryValues(incomeOptions);
-                        onOpen();
                       }}
                     >
                       Add Income🤑
@@ -341,8 +357,8 @@ const PlanName = () => {
                       width="50%"
                       onClick={() => {
                         setModalTitle("Expense");
+                        setModalStatus(true);
                         setCategoryValues(expenseOptions);
-                        onOpen();
                       }}
                     >
                       Add Expense💸

@@ -1,4 +1,3 @@
-import "../styles/globals.css";
 import Layout from "@/components/Layout";
 import { AppProvider } from "@/firebase/auth";
 import { DatabaseProvider } from "@/firebase/database";

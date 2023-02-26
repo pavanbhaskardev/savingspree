@@ -309,7 +309,6 @@ const Login = () => {
                 </Stack>
                 <Button
                   variant="link"
-                  color="black"
                   onClick={() => {
                     setForgotPasswordButton((current) => !current);
                     //removing alerts when the button is clicked
