@@ -27,6 +27,7 @@ import {
   VStack,
   FormLabel,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
@@ -41,7 +42,7 @@ import Statistics from "@/components/Statistics";
 import { useColorMode } from "@chakra-ui/react";
 import Head from "next/head";
 
-const planName = () => {
+const PlanName = () => {
   const router = useRouter();
   const [categoryValues, setCategoryValues] = useState([
     { category: "", value: "" },
@@ -248,8 +249,9 @@ const planName = () => {
                               <InputLeftElement
                                 pointerEvents="none"
                                 fontSize="1.2em"
-                                children="₹"
-                              />
+                              >
+                                <Text>₹</Text>
+                              </InputLeftElement>
                               <Input
                                 placeholder="Enter amount"
                                 id="amount"
@@ -359,4 +361,4 @@ const planName = () => {
   );
 };
 
-export default planName;
+export default PlanName;

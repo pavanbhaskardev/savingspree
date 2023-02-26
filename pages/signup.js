@@ -29,7 +29,7 @@ import { BeatLoader } from "react-spinners";
 import { useColorMode } from "@chakra-ui/react";
 import Head from "next/head.js";
 
-const signup = () => {
+const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const toast = useToast();
@@ -42,7 +42,7 @@ const signup = () => {
     if (userData) {
       router.push("/dashboard");
     }
-  }, [userData]);
+  }, [userData, router]);
 
   const handleGoogleSignIn = () => {
     signInWithGoogle();
@@ -214,4 +214,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default Signup;

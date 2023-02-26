@@ -122,7 +122,7 @@ const Navbar = () => {
       boxShadow="base"
     >
       <HStack>
-        <Image src="/logo.svg" h="30px" />
+        <Image src="/logo.svg" h="30px" alt="savingspree_logo" />
         <Heading
           onClick={() => redirectUser()}
           size={{ base: "md" }}

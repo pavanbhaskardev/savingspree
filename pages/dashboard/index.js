@@ -41,7 +41,7 @@ import { useColorMode } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react";
 import Head from "next/head";
 
-const dashboard = () => {
+const Dashboard = () => {
   const [allUserDetails, setAllUserDetails] = useState({});
   const [planFeildValid, setPlanFeildValid] = useState({
     status: false,
@@ -277,4 +277,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

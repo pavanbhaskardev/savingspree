@@ -34,7 +34,7 @@ import { BeatLoader } from "react-spinners";
 import { useColorMode } from "@chakra-ui/react";
 import Head from "next/head.js";
 
-const login = () => {
+const Login = () => {
   const emailRef = useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [forgetPasswordButton, setForgotPasswordButton] = useState(false);
@@ -63,7 +63,7 @@ const login = () => {
     if (userData) {
       router.push("/dashboard");
     }
-  }, [userData]);
+  }, [userData, router]);
 
   const handleGoogleSignIn = () => {
     signInWithGoogle();
@@ -146,7 +146,7 @@ const login = () => {
               >
                 <Heading size="md">Log in to your account</Heading>
                 <HStack pb={5}>
-                  <Text color="gray.500">Don't have an account?</Text>
+                  <Text color="gray.500">{"Don't have an account?"}</Text>
                   <Button
                     colorScheme="blue"
                     variant="link"
@@ -281,8 +281,9 @@ const login = () => {
               >
                 <Heading size="md">Reset your password</Heading>
                 <Text color="gray.500" px="auto">
-                  Enter your email to reset your password, we'll send you a link
-                  to get back into your account.
+                  {
+                    "Enter your email to reset your password, we'll send you a link to get back into your account."
+                  }
                 </Text>
                 <Stack textAlign="left" width="100%" py={3}>
                   <FormControl isInvalid={resetPasswordStatus.status}>
@@ -328,4 +329,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;
