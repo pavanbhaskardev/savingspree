@@ -41,6 +41,8 @@ import { useColorMode } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react";
 import Head from "next/head";
 import CountIndicator from "@/components/CountIndicator";
+import { getRedirectResult } from "firebase/auth";
+import { auth } from "@/firebase/firebase-config";
 
 const Dashboard = () => {
   const [allUserDetails, setAllUserDetails] = useState({});
@@ -52,7 +54,7 @@ const Dashboard = () => {
   const [modalStatus, setModalStatus] = useState(false);
   const [PlanNameEnteredByUser, setPlanNameEnteredByUser] = useState("");
   const [editPlanId, setEditPlanId] = useState({ status: false, id: "" });
-  const { userData } = useUserContext();
+  const { userData, setUserData } = useUserContext();
   const [charCount, setCharCount] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -70,14 +72,27 @@ const Dashboard = () => {
   const router = useRouter();
 
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
+
+  const signinUserWithRedirect = async () => {
+    try {
+      const response = await getRedirectResult(auth);
+      setUserData(response?.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    if (isSmallerThan768) {
+      signinUserWithRedirect();
+    }
     if (!userData) {
       router.push("/");
     }
     setAllUserDetails(userData);
     getAllPlans(userData?.uid);
-  }, [userData, userAction]);
+  }, [userData, userAction, router]);
 
   const handleCreatePlan = () => {
     if (editPlanId.status === true) {
@@ -94,6 +109,8 @@ const Dashboard = () => {
     } else {
       createNewPlan(planName, uid, time, setModalStatus);
     }
+    setCharCount(0);
+    setPlanNameEnteredByUser("");
   };
 
   const handleUpdatePlan = (id, planName) => {
@@ -154,14 +171,8 @@ const Dashboard = () => {
                       >
                         <CardBody>
                           <Flex justifyContent="space-between">
-                            <Text
-                              fontSize={{ base: "lg", lg: "xl" }}
-                              width={!isLargerThan768 && "200px"}
-                              whiteSpace="nowrap"
-                              overflow="hidden"
-                              textOverflow="ellipsis"
-                              pt={1}
-                              cursor="pointer"
+                            <Box
+                              width="100%"
                               onClick={() => {
                                 //used local storage to store plan id so even if refresh is called all data is loaded
                                 localStorage.setItem("docId", id);
@@ -171,8 +182,18 @@ const Dashboard = () => {
                                 });
                               }}
                             >
-                              {planName}
-                            </Text>
+                              <Text
+                                fontSize={{ base: "lg", lg: "xl" }}
+                                width={!isLargerThan768 && "200px"}
+                                whiteSpace="nowrap"
+                                overflow="hidden"
+                                textOverflow="ellipsis"
+                                pt={1}
+                                cursor="pointer"
+                              >
+                                {planName}
+                              </Text>
+                            </Box>
                             <Popover>
                               <PopoverTrigger>
                                 <IconButton
@@ -201,7 +222,14 @@ const Dashboard = () => {
                                       colorScheme="red"
                                       isLoading={isLoading}
                                       spinner={
-                                        <BeatLoader size={8} color="white" />
+                                        <BeatLoader
+                                          size={8}
+                                          color={
+                                            colorMode === "dark"
+                                              ? "white"
+                                              : "#E53E3E"
+                                          }
+                                        />
                                       }
                                       onClick={() => {
                                         handleDeletePlan(id);
@@ -229,6 +257,7 @@ const Dashboard = () => {
                     h={{ md: "50vh" }}
                     w={{ md: "50vw" }}
                     mx="auto"
+                    alt="no_plans_added_image"
                   />
                 </Box>
               )}

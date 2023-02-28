@@ -21,14 +21,14 @@ import { useColorMode } from "@chakra-ui/react";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
-  const { userData } = useUserContext();
+  const { userData, setUserData } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {
     if (userData) {
       router.push("/dashboard");
     }
-  }, [userData]);
+  }, [userData, router]);
 
   const { colorMode, toggleColorMode } = useColorMode();
 

@@ -7,8 +7,8 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   fonts: {
-    body: "Inter, sans-serif",
-    heading: "Inter, sans-serif",
+    body: "Inter",
+    heading: "Inter",
   },
   breakpoints: {
     sm: "360px",

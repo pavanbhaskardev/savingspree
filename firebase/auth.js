@@ -9,7 +9,6 @@ import {
   GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithRedirect,
-  getRedirectResult,
 } from "firebase/auth";
 import { auth } from "./firebase-config";
 import { useRouter } from "next/router";
@@ -29,25 +28,12 @@ const AppProvider = ({ children }) => {
   const [successStatus, setSuccessStatus] = useState(false);
   const router = useRouter();
   const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({
+    prompt: "select_account",
+  });
   const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
 
-  const signinUserWithRedirect = async () => {
-    try {
-      const response = await getRedirectResult(auth);
-      console.log("response", response);
-      setUserData(response?.user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  console.log("userData", userData);
-
   useEffect(() => {
-    if (isSmallerThan768) {
-      console.log("i'm hitted");
-      signinUserWithRedirect();
-    }
     setIsLoading(true);
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -163,6 +149,7 @@ const AppProvider = ({ children }) => {
     forgetPassword,
     setErrorStatus,
     setSuccessStatus,
+    setUserData,
   };
 
   return (
