@@ -19,12 +19,36 @@ import {
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useColorMode } from "@chakra-ui/react";
 import { Footer } from "@/components/Footer";
+import { getRedirectResult } from "firebase/auth";
+import { auth } from "@/firebase/firebase-config";
+import { useMediaQuery } from "@chakra-ui/react";
 
 export default function Home() {
   const { userData, setUserData } = useUserContext();
   const router = useRouter();
+  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
+
+  const signinUserWithRedirect = async () => {
+    try {
+      const response = await getRedirectResult(auth);
+      setUserData(response?.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    if (isSmallerThan768) {
+      getRedirectResult(auth)
+        .then((response) => {
+          if (response?.user) {
+            setUserData(response?.user);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
     if (userData) {
       router.push("/dashboard");
     }
@@ -79,7 +103,7 @@ export default function Home() {
             <SimpleGrid
               columns={{ lg: 2 }}
               pb={{ base: 20, lg: 0 }}
-              h={{ lg: "60vh" }}
+              h={{ lg: "25rem" }}
               pt={{ lg: "10vh" }}
             >
               <VStack align="start" pb={{ base: "20" }}>

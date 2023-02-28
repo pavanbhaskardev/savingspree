@@ -8,7 +8,9 @@ const NotFound = () => {
         <title>404 page-not-found</title>
       </Head>
       <VStack mt={5}>
-        <Heading>404 page-not-found</Heading>
+        <Heading size={{ base: "sm", md: "md", lg: "lg" }}>
+          404 page-not-found🥲
+        </Heading>
         <Image
           src="/empty.svg"
           h={{ md: "50vh" }}

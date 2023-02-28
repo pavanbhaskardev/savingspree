@@ -41,8 +41,7 @@ import { useColorMode } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react";
 import Head from "next/head";
 import CountIndicator from "@/components/CountIndicator";
-import { getRedirectResult } from "firebase/auth";
-import { auth } from "@/firebase/firebase-config";
+import moment from "moment";
 
 const Dashboard = () => {
   const [allUserDetails, setAllUserDetails] = useState({});
@@ -54,7 +53,7 @@ const Dashboard = () => {
   const [modalStatus, setModalStatus] = useState(false);
   const [PlanNameEnteredByUser, setPlanNameEnteredByUser] = useState("");
   const [editPlanId, setEditPlanId] = useState({ status: false, id: "" });
-  const { userData, setUserData } = useUserContext();
+  const { userData } = useUserContext();
   const [charCount, setCharCount] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -72,21 +71,8 @@ const Dashboard = () => {
   const router = useRouter();
 
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
-
-  const signinUserWithRedirect = async () => {
-    try {
-      const response = await getRedirectResult(auth);
-      setUserData(response?.user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
-    if (isSmallerThan768) {
-      signinUserWithRedirect();
-    }
     if (!userData) {
       router.push("/");
     }
@@ -161,7 +147,8 @@ const Dashboard = () => {
               {databaseResponseForAllPlans.length ? (
                 <VStack px={5} mt={5}>
                   {databaseResponseForAllPlans?.map((plansData) => {
-                    const { planName, uid, time, id } = plansData;
+                    const { planName, uid, createdOn, id } = plansData;
+                    const time = createdOn?.seconds * 1000;
                     return (
                       <Card
                         w="100%"
@@ -170,8 +157,9 @@ const Dashboard = () => {
                         bg={colorMode === "light" && "cardColor"}
                       >
                         <CardBody>
-                          <Flex justifyContent="space-between">
-                            <Box
+                          <Flex justifyContent="space-between" align="center">
+                            <VStack
+                              align="start"
                               width="100%"
                               onClick={() => {
                                 //used local storage to store plan id so even if refresh is called all data is loaded
@@ -181,6 +169,7 @@ const Dashboard = () => {
                                   pathname: `/dashboard/${id}`,
                                 });
                               }}
+                              cursor="pointer"
                             >
                               <Text
                                 fontSize={{ base: "lg", lg: "xl" }}
@@ -189,11 +178,17 @@ const Dashboard = () => {
                                 overflow="hidden"
                                 textOverflow="ellipsis"
                                 pt={1}
-                                cursor="pointer"
                               >
                                 {planName}
                               </Text>
-                            </Box>
+                              <Text
+                                fontSize="xs"
+                                mt={0}
+                                color={colorMode === "dark" && "gray.500"}
+                              >
+                                {moment(time).format("MMM Do YY")}
+                              </Text>
+                            </VStack>
                             <Popover>
                               <PopoverTrigger>
                                 <IconButton
