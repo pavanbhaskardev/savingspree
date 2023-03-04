@@ -63,20 +63,18 @@ const Navbar = () => {
             </Button>
           </Link>
         ) : (
-          <>
-            <Button
-              leftIcon={<FiLogOut />}
-              variant="outline"
-              colorScheme="blue"
-              isLoading={isLoading}
-              spinner={<BeatLoader size={8} color="white" />}
-              onClick={() => {
-                userLogOut();
-              }}
-            >
-              Sign Out
-            </Button>
-          </>
+          <Button
+            leftIcon={<FiLogOut />}
+            variant="outline"
+            colorScheme="blue"
+            isLoading={isLoading}
+            spinner={<BeatLoader size={8} color="white" />}
+            onClick={() => {
+              userLogOut();
+            }}
+          >
+            Sign Out
+          </Button>
         )}
       </>
     );
@@ -87,8 +85,13 @@ const Navbar = () => {
       <>
         {!userData ? (
           <Link href="/" onClick={onClose}>
-            <HStack mb={{ base: 2, lg: 0 }} mt={{ base: 5, lg: 0 }}>
-              <Box p={2} bg={"#bee3f8"} borderRadius="5">
+            <HStack>
+              <Box
+                p={2}
+                bg={"#bee3f8"}
+                borderRadius="5"
+                mt={{ base: 5, lg: 0 }}
+              >
                 <AiFillHome color="#3182ce" />
               </Box>
               <Text>Home</Text>
@@ -96,7 +99,7 @@ const Navbar = () => {
           </Link>
         ) : (
           <Link href="/dashboard" onClick={onClose}>
-            <HStack mb={{ base: 2, lg: 0 }} mt={{ base: 5, lg: 0 }}>
+            <HStack mt={{ base: 5, lg: 0 }}>
               <Box p={2} bg={"#bee3f8"} borderRadius="5">
                 <MdSpaceDashboard color="#3182ce" />
               </Box>
@@ -111,7 +114,7 @@ const Navbar = () => {
   return (
     <Flex
       px={5}
-      py={3}
+      py={{ base: 1, lg: 2 }}
       bg={colorMode === "light" ? "secondary" : "blackAlpha.400"}
       pos="sticky"
       top={0}
@@ -121,10 +124,10 @@ const Navbar = () => {
       boxShadow="base"
     >
       <HStack>
-        <Image src="/logo.svg" h="30px" alt="savingspree_logo" />
+        <Image src="/logo.svg" h="20px" alt="savingspree_logo" />
         <Heading
           onClick={() => redirectUser()}
-          size={{ base: "md" }}
+          size={{ base: "sm" }}
           cursor="pointer"
         >
           Savingspree
@@ -133,9 +136,17 @@ const Navbar = () => {
       <Spacer />
 
       {isLargerThan1024 ? (
-        <HStack spacing={5}>
+        <HStack spacing={4}>
           <NavigationTabs />
+          <Divider
+            orientation="vertical"
+            bg={colorMode === "light" && "black"}
+          />
           <ColorMode />
+          <Divider
+            orientation="vertical"
+            bg={colorMode === "light" && "black"}
+          />
           <HStack>
             <Popover>
               <PopoverTrigger>
@@ -189,7 +200,7 @@ const Navbar = () => {
           </DrawerHeader>
           <Divider />
           <DrawerBody bg={colorMode === "light" && "primary"}>
-            <VStack align="start">
+            <VStack align="start" spacing={5}>
               <NavigationTabs />
               <LoginAndLogoutBtn />
             </VStack>

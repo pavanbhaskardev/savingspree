@@ -9,14 +9,11 @@ import {
   VStack,
   Text,
   Image,
-  List,
-  ListItem,
-  ListIcon,
   Button,
   Center,
   Spinner,
+  Flex,
 } from "@chakra-ui/react";
-import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useColorMode } from "@chakra-ui/react";
 import { Footer } from "@/components/Footer";
 import { getRedirectResult } from "firebase/auth";
@@ -97,7 +94,7 @@ export default function Home() {
           <Box
             pt={5}
             px={5}
-            maxW={{ base: "100%", sm: "2xl", lg: "4xl", xl: "5xl" }}
+            maxW={{ base: "100%", sm: "2xl", lg: "4xl", xl: "6xl" }}
             mx="auto"
           >
             <SimpleGrid
@@ -107,127 +104,111 @@ export default function Home() {
               pt={{ lg: "10vh" }}
             >
               <VStack align="start" pb={{ base: "20" }}>
-                <Heading as="h1" size="3xl" mb={2} fontWeight="extrabold">
+                <Heading
+                  as="h1"
+                  size={{ base: "xl", lg: "2xl", xl: "3xl" }}
+                  mb={2}
+                  fontWeight="extrabold"
+                >
                   Track. Analyze. Manage.
                 </Heading>
-                <Text pb={1} color={colorMode === "dark" && "gray.500"}>
+                <Text
+                  pb={{ base: 2 }}
+                  color={colorMode === "dark" && "gray.500"}
+                  fontSize={{ lg: "xl" }}
+                  pr={{ lg: 2 }}
+                >
                   Savingspree is a platform for you, to track, visualize &
                   manage money.
                 </Text>
                 <Button
                   colorScheme="blue"
                   onClick={() => router.push("/login")}
+                  borderRadius="99"
                 >
-                  Get Started😎
+                  Get Started 😎
                 </Button>
               </VStack>
               <Box>
                 <Image src="/dashboard_pic.png" alt="dashboard" />
               </Box>
             </SimpleGrid>
-            <SimpleGrid spacing={5} columns={{ md: 3 }} pb={{ lg: 15 }}>
-              <Box
+            <SimpleGrid
+              spacing={5}
+              columns={{ md: 3 }}
+              pb={{ lg: 15 }}
+              pt={{ xl: 10 }}
+            >
+              <VStack
+                align="start"
+                p={5}
+                h="100%"
+                borderRadius={10}
+                bg={colorMode === "light" ? "green.50" : "#1d4b30"}
                 border={colorMode === "light" && "2px solid black"}
-                borderRadius={colorMode === "light" && 6}
               >
-                <VStack
-                  align="start"
-                  p={5}
-                  h="100%"
-                  borderTopWidth={8}
-                  borderTopColor={
-                    colorMode === "light" ? "green.400" : "green.500"
-                  }
-                  borderRadius={5}
-                  bg={colorMode === "light" ? "green.50" : "#1d4b30"}
+                <Box
+                  p={2}
+                  fontSize="2xl"
+                  mb={3}
+                  borderRadius={10}
+                  bg={"light" ? "green.400" : "green.500"}
+                  border={colorMode === "light" && "2px solid black"}
                 >
-                  <Heading size="md">💰Track your transactions</Heading>
-                  <List spacing={3}>
-                    <ListItem>
-                      <ListIcon
-                        as={CheckCircleIcon}
-                        color={
-                          colorMode === "light" ? "green.400" : "green.500"
-                        }
-                      />
-                      Track all income on your account.
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon
-                        as={CheckCircleIcon}
-                        color={
-                          colorMode === "light" ? "green.400" : "green.500"
-                        }
-                      />
-                      Track all expenses on your account.
-                    </ListItem>
-                  </List>
-                </VStack>
-              </Box>
-              <Box
+                  <Image
+                    src="/transactions.png"
+                    h={30}
+                    alt="transactions-pic"
+                  />
+                </Box>
+                <Heading size="md">Track your transactions</Heading>
+                <Text>Manage all your income & expenses at one place.</Text>
+              </VStack>
+              <VStack
+                align="start"
+                p={5}
+                h="100%"
+                borderRadius={10}
+                bg={colorMode === "light" ? "blue.50" : "#142e44"}
                 border={colorMode === "light" && "2px solid black"}
-                borderRadius={colorMode === "light" && 6}
               >
-                <VStack
-                  h="100%"
-                  align="start"
-                  p={5}
-                  borderTopWidth={8}
-                  borderTopColor={
-                    colorMode === "light" ? "yellow.400" : "yellow.500"
-                  }
-                  borderRadius={5}
-                  bg={colorMode === "light" ? "yellow.50" : "#5e501e"}
+                <Box
+                  p={2}
+                  fontSize="2xl"
+                  mb={3}
+                  borderRadius={10}
+                  bg={"blue.400"}
+                  border={colorMode === "light" && "2px solid black"}
                 >
-                  <Heading size="md">🔒Secure data on cloud</Heading>
-                  <List spacing={3}>
-                    <ListItem>
-                      <ListIcon
-                        as={CheckCircleIcon}
-                        color={
-                          colorMode === "light" ? "yellow.400" : "yellow.500"
-                        }
-                      />
-                      All your data is secure on firebase cloud.
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon
-                        as={CheckCircleIcon}
-                        color={
-                          colorMode === "light" ? "yellow.400" : "yellow.500"
-                        }
-                      />
-                      No worries of data storage.
-                    </ListItem>
-                  </List>
-                </VStack>
-              </Box>
-              <Box
+                  <Image src="/firebase.png" h={30} alt="firebase-pic" />
+                </Box>
+                <Heading size="md">Secure data on cloud</Heading>
+                <Text>
+                  All your data is secure on firebase cloud. No worries of data
+                  storage.
+                </Text>
+              </VStack>
+              <VStack
+                align="start"
+                p={5}
+                h="100%"
+                borderRadius={10}
+                bg={colorMode === "light" ? "yellow.50" : "#5e501e"}
                 border={colorMode === "light" && "2px solid black"}
-                borderRadius={colorMode === "light" && 6}
               >
-                <VStack
-                  align="start"
-                  p={5}
-                  h="100%"
-                  borderTopWidth={8}
-                  borderTopColor="blue.400"
-                  borderRadius={5}
-                  bg={colorMode === "light" ? "blue.50" : "#142e44"}
+                <Box
+                  p={2}
+                  fontSize="2xl"
+                  mb={3}
+                  borderRadius={10}
+                  bg={colorMode === "light" ? "yellow.400" : "yellow.500"}
+                  border={colorMode === "light" && "2px solid black"}
                 >
-                  <Heading size="md">📊Visualize your transactions</Heading>
-                  <List spacing={3}>
-                    <ListItem>
-                      <ListIcon as={CheckCircleIcon} color="blue.400" />
-                      Different charts are provided for better tracking.
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon as={CheckCircleIcon} color="blue.400" />
-                      Visualize data using charts like line, doughnut.
-                    </ListItem>
-                  </List>
-                </VStack>
-              </Box>
+                  <Image src="/bar-chart.png" h={30} alt="bar-chart-pic" />
+                </Box>
+                <Heading size="md">Visualize your transactions</Heading>
+                <Text>Different charts are provided for better tracking.</Text>
+              </VStack>
             </SimpleGrid>
           </Box>
         </>

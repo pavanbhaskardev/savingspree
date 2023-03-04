@@ -28,6 +28,10 @@ import {
   FormLabel,
   Spinner,
   Text,
+  IconButton,
+  RadioGroup,
+  Radio,
+  Tooltip,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
@@ -39,7 +43,7 @@ import { BeatLoader } from "react-spinners";
 import { useUserContext } from "@/firebase/auth";
 import Transactions from "@/components/Transactions";
 import Statistics from "@/components/Statistics";
-import { useColorMode } from "@chakra-ui/react";
+import { useColorMode, useColorModeValue } from "@chakra-ui/react";
 import Head from "next/head";
 import CountIndicator from "@/components/CountIndicator";
 
@@ -49,7 +53,7 @@ const PlanName = () => {
     { category: "", value: "" },
   ]);
   const [modalStatus, setModalStatus] = useState(false);
-  const [ModalTitle, setModalTitle] = useState("");
+  const [radioValue, setRadioValue] = useState("Income");
   const [tabIndex, setTabIndex] = useState(0);
   const [docId, setDocId] = useState("");
   const [charCount, setCharCount] = useState(0);
@@ -61,7 +65,7 @@ const PlanName = () => {
     note: "",
   };
 
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
 
   const {
     addTransaction,
@@ -161,13 +165,13 @@ const PlanName = () => {
       return;
     }
     reset();
-    if (ModalTitle === "Income") {
+    if (radioValue === "Income") {
       addTransaction(
         { ...data, type: "income", time: new Date() },
         docId,
         setModalStatus
       );
-    } else if (ModalTitle === "Expense") {
+    } else if (radioValue === "Expense") {
       const transactionData = {
         ...data,
         type: "expense",
@@ -177,6 +181,7 @@ const PlanName = () => {
         addTransaction(transactionData, docId, setModalStatus);
       }
     }
+    setCharCount(0);
   };
 
   //Recharts
@@ -189,6 +194,11 @@ const PlanName = () => {
       },
     ],
   };
+
+  const radioTabColor = useColorModeValue(
+    "rgba(0, 0, 0, 0.04)",
+    "rgba(255, 255, 255, 0.08)"
+  );
 
   return (
     <>
@@ -241,13 +251,15 @@ const PlanName = () => {
                   onClose={() => {
                     setModalStatus(false);
                     setCharCount(0);
+                    setCategoryValues(incomeOptions);
+                    setRadioValue("Income");
                     reset();
                   }}
                   size="md"
                 >
                   <ModalOverlay />
                   <ModalContent>
-                    <ModalHeader>{ModalTitle}</ModalHeader>
+                    <ModalHeader>{""}</ModalHeader>
                     <ModalCloseButton />
                     <form onSubmit={handleSubmit(handleTransaction)}>
                       <ModalBody>
@@ -271,6 +283,42 @@ const PlanName = () => {
                               {errors?.amount && errors?.amount.message}
                             </FormErrorMessage>
                           </FormControl>
+                          <RadioGroup
+                            w="100%"
+                            align="start"
+                            onChange={(e) => {
+                              setRadioValue(e);
+                              e === "Income"
+                                ? setCategoryValues(incomeOptions)
+                                : setCategoryValues(expenseOptions);
+                            }}
+                            value={radioValue}
+                          >
+                            <HStack spacing={2}>
+                              <Box
+                                w="50%"
+                                px={3}
+                                py={2}
+                                bg={radioTabColor}
+                                borderRadius={5}
+                              >
+                                <Radio value="Income" colorScheme="green">
+                                  Income
+                                </Radio>
+                              </Box>
+                              <Box
+                                w="50%"
+                                px={3}
+                                py={2}
+                                bg={radioTabColor}
+                                borderRadius={5}
+                              >
+                                <Radio value="Expense" colorScheme="red">
+                                  Expense
+                                </Radio>
+                              </Box>
+                            </HStack>
+                          </RadioGroup>
                           <FormControl isInvalid={errors?.category}>
                             <Select id="category" {...register("category")}>
                               {categoryValues.map(({ category, value }) => {
@@ -321,6 +369,8 @@ const PlanName = () => {
                             setModalStatus(false);
                             setCharCount(0);
                             reset();
+                            setCategoryValues(incomeOptions);
+                            setRadioValue("Income");
                           }}
                           ml={2}
                         >
@@ -331,16 +381,35 @@ const PlanName = () => {
                   </ModalContent>
                 </Modal>
                 <Box
-                  bg="blackAlpha.400"
-                  backdropFilter="auto"
-                  backdropBlur="8px"
-                  py={3}
-                  px={5}
                   pos="fixed"
                   bottom="0"
                   w={"100%"}
+                  bg={colorMode === "light" ? "secondary" : "gray.600"}
+                  h={10}
+                  borderTop={colorMode === "light" && "2px solid black"}
                 >
-                  <HStack w={{ lg: "90%" }} mx="auto">
+                  <Center>
+                    <Box
+                      pos="relative"
+                      bottom={7}
+                      onClick={() => {
+                        setModalStatus(true);
+                        setCategoryValues(incomeOptions);
+                      }}
+                    >
+                      <Tooltip hasArrow label="Add transaction">
+                        <IconButton
+                          colorScheme="blue"
+                          aria-label="Add transaction"
+                          icon={<AddIcon />}
+                          borderRadius={99}
+                          size="lg"
+                          border={colorMode === "light" && "2px solid black"}
+                        />
+                      </Tooltip>
+                    </Box>
+                  </Center>
+                  {/* <HStack w={{ lg: "90%" }} mx="auto">
                     <Button
                       colorScheme="whatsapp"
                       width="50%"
@@ -363,7 +432,7 @@ const PlanName = () => {
                     >
                       Add Expense💸
                     </Button>
-                  </HStack>
+                  </HStack> */}
                 </Box>
               </TabPanel>
               <TabPanel>

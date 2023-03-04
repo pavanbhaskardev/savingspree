@@ -90,8 +90,17 @@ const Statistics = () => {
           "#E9E2D0",
         ],
         borderWidth: 0,
+        // cutout: "60%",
       },
     ],
+  };
+
+  const expenesesChartOptions = {
+    // plugins: {
+    //   legend: {
+    //     display: false,
+    //   },
+    // },
   };
 
   //Donut Chart for income
@@ -138,7 +147,10 @@ const Statistics = () => {
                 All Expenses
               </Heading>
               <Box w="240px" mx="auto">
-                <Doughnut data={expenesesChartData} />
+                <Doughnut
+                  data={expenesesChartData}
+                  options={expenesesChartOptions}
+                />
               </Box>
             </Box>
           </>
