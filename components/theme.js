@@ -1,6 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
-import "@fontsource/Inter";
-import "@fontsource/Inter";
+import "@fontsource/inter";
+import "@fontsource/inter";
 
 const theme = extendTheme({
   config: {
