@@ -17,9 +17,9 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverArrow,
-  Spinner,
-  Center,
   Skeleton,
+  VStack,
+  Stack,
 } from "@chakra-ui/react";
 import { useDatabaseContext } from "@/firebase/database";
 import moment from "moment/moment";
@@ -32,6 +32,7 @@ import { MdDelete } from "react-icons/md";
 import { BsThreeDots } from "react-icons/bs";
 import { BeatLoader } from "react-spinners";
 import { useMediaQuery } from "@chakra-ui/react";
+import CardSkeleton from "./CardSkeleton";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -194,10 +195,16 @@ const Transactions = () => {
             </Flex>
           </Stat>
         </SimpleGrid>
+
+        {/* all transactions */}
         {spinnerStatus ? (
-          <Center height="50vh">
-            <Spinner />
-          </Center>
+          <>
+            <Stack spacing={3} mx={5}>
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+            </Stack>
+          </>
         ) : (
           <Box pb={59} h={"100%"}>
             {databaseResponseForAllTransactions?.map((transaction) => {

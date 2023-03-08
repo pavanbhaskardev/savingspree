@@ -88,6 +88,8 @@ const Statistics = () => {
           "#FAC213",
           "#B9C0D5",
           "#E9E2D0",
+          "#FF87B2",
+          "#FEB139",
         ],
         borderWidth: 0,
         // cutout: "60%",

@@ -42,6 +42,7 @@ import { useMediaQuery } from "@chakra-ui/react";
 import Head from "next/head";
 import CountIndicator from "@/components/CountIndicator";
 import moment from "moment";
+import CardSkeleton from "@/components/CardSkeleton";
 
 const Dashboard = () => {
   const [allUserDetails, setAllUserDetails] = useState({});
@@ -139,9 +140,13 @@ const Dashboard = () => {
           </Box>
 
           {spinnerStatus ? (
-            <Center height="50vh">
-              <Spinner />
-            </Center>
+            <>
+              <Stack spacing={3} mx={5} mt={5}>
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+              </Stack>
+            </>
           ) : (
             <>
               {databaseResponseForAllPlans.length ? (
@@ -155,89 +160,88 @@ const Dashboard = () => {
                         spacing={3}
                         key={id}
                         bg={colorMode === "light" && "cardColor"}
+                        p={{ base: 3, md: 5 }}
                       >
-                        <CardBody>
-                          <Flex justifyContent="space-between" align="center">
-                            <VStack
-                              align="start"
-                              width="100%"
-                              onClick={() => {
-                                //used local storage to store plan id so even if refresh is called all data is loaded
-                                localStorage.setItem("docId", id);
-                                localStorage.setItem("planName", planName);
-                                router.push({
-                                  pathname: `/dashboard/${id}`,
-                                });
-                              }}
-                              cursor="pointer"
+                        <Flex justifyContent="space-between" align="center">
+                          <VStack
+                            align="start"
+                            width="100%"
+                            onClick={() => {
+                              //used local storage to store plan id so even if refresh is called all data is loaded
+                              localStorage.setItem("docId", id);
+                              localStorage.setItem("planName", planName);
+                              router.push({
+                                pathname: `/dashboard/${id}`,
+                              });
+                            }}
+                            cursor="pointer"
+                          >
+                            <Text
+                              fontSize={{ base: "md", lg: "xl" }}
+                              width={!isLargerThan768 && "200px"}
+                              whiteSpace="nowrap"
+                              overflow="hidden"
+                              textOverflow="ellipsis"
+                              pt={1}
                             >
-                              <Text
-                                fontSize={{ base: "lg", lg: "xl" }}
-                                width={!isLargerThan768 && "200px"}
-                                whiteSpace="nowrap"
-                                overflow="hidden"
-                                textOverflow="ellipsis"
-                                pt={1}
-                              >
-                                {planName}
-                              </Text>
-                              <Text
-                                fontSize="xs"
-                                mt={0}
-                                color={colorMode === "dark" && "gray.500"}
-                              >
-                                {moment(time).format("MMM Do YY")}
-                              </Text>
-                            </VStack>
-                            <Popover>
-                              <PopoverTrigger>
-                                <IconButton
-                                  icon={<BsThreeDots />}
-                                  borderRadius="9999"
-                                />
-                              </PopoverTrigger>
-                              <PopoverContent w="200px">
-                                <PopoverArrow />
-                                <PopoverBody>
-                                  <Stack spacing="2">
-                                    <Button
-                                      width="100%"
-                                      colorScheme="blue"
-                                      leftIcon={<FaEdit />}
-                                      onClick={() => {
-                                        handleUpdatePlan(id, planName);
-                                      }}
-                                    >
-                                      Edit
-                                    </Button>
-                                    <Button
-                                      variant="outline"
-                                      width="100%"
-                                      leftIcon={<MdDelete />}
-                                      colorScheme="red"
-                                      isLoading={isLoading}
-                                      spinner={
-                                        <BeatLoader
-                                          size={8}
-                                          color={
-                                            colorMode === "dark"
-                                              ? "white"
-                                              : "#E53E3E"
-                                          }
-                                        />
-                                      }
-                                      onClick={() => {
-                                        handleDeletePlan(id);
-                                      }}
-                                    >
-                                      Delete
-                                    </Button>
-                                  </Stack>
-                                </PopoverBody>
-                              </PopoverContent>
-                            </Popover>
-                          </Flex>
-                        </CardBody>
+                              {planName}
+                            </Text>
+                            <Text
+                              fontSize="xs"
+                              mt={0}
+                              color={colorMode === "dark" && "gray.500"}
+                            >
+                              {moment(time).format("MMM Do YY")}
+                            </Text>
+                          </VStack>
+                          <Popover>
+                            <PopoverTrigger>
+                              <IconButton
+                                icon={<BsThreeDots />}
+                                borderRadius="9999"
+                              />
+                            </PopoverTrigger>
+                            <PopoverContent w="200px">
+                              <PopoverArrow />
+                              <PopoverBody>
+                                <Stack spacing="2">
+                                  <Button
+                                    width="100%"
+                                    colorScheme="blue"
+                                    leftIcon={<FaEdit />}
+                                    onClick={() => {
+                                      handleUpdatePlan(id, planName);
+                                    }}
+                                  >
+                                    Edit
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    width="100%"
+                                    leftIcon={<MdDelete />}
+                                    colorScheme="red"
+                                    isLoading={isLoading}
+                                    spinner={
+                                      <BeatLoader
+                                        size={8}
+                                        color={
+                                          colorMode === "dark"
+                                            ? "white"
+                                            : "#E53E3E"
+                                        }
+                                      />
+                                    }
+                                    onClick={() => {
+                                      handleDeletePlan(id);
+                                    }}
+                                  >
+                                    Delete
+                                  </Button>
+                                </Stack>
+                              </PopoverBody>
+                            </PopoverContent>
+                          </Popover>
+                        </Flex>
                       </Card>
                     );
                   })}

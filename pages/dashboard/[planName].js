@@ -133,6 +133,10 @@ const PlanName = () => {
       value: "🍛Food",
     },
     {
+      category: "🏠Rent",
+      value: "🏠Rent",
+    },
+    {
       category: "🚕Transport",
       value: "🚕Transport",
     },
@@ -152,6 +156,10 @@ const PlanName = () => {
     {
       category: "🧑‍⚕️Health",
       value: "🧑‍⚕️Health",
+    },
+    {
+      category: "💇Gromming",
+      value: "💇Gromming",
     },
     {
       category: "Other",
@@ -182,6 +190,8 @@ const PlanName = () => {
       }
     }
     setCharCount(0);
+    setCategoryValues(incomeOptions);
+    setRadioValue("Income");
   };
 
   //Recharts

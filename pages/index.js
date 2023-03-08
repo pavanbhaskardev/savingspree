@@ -25,15 +25,6 @@ export default function Home() {
   const router = useRouter();
   const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
 
-  const signinUserWithRedirect = async () => {
-    try {
-      const response = await getRedirectResult(auth);
-      setUserData(response?.user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (isSmallerThan768) {
       getRedirectResult(auth)
@@ -136,7 +127,7 @@ export default function Home() {
             <SimpleGrid
               spacing={5}
               columns={{ md: 3 }}
-              pb={{ lg: 15 }}
+              pb={{ base: 15 }}
               pt={{ xl: 10 }}
             >
               <VStack

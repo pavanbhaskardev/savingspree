@@ -94,7 +94,6 @@ const AppProvider = ({ children }) => {
   };
 
   const signInWithGoogle = async () => {
-    // try {
     if (isSmallerThan768) {
       await signInWithRedirect(auth, provider);
     } else {
