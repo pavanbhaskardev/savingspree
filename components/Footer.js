@@ -19,6 +19,8 @@ export const Footer = () => {
       py={{ base: 3 }}
       bg={colorMode === "light" ? "secondary" : "blackAlpha.300"}
       borderTop={colorMode === "light" && "2px solid black"}
+pos="fixed"
+bottom={0}
     >
       <HStack w="100%">
         <HStack>
