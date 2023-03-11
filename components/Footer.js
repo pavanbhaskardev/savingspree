@@ -21,6 +21,7 @@ export const Footer = () => {
       borderTop={colorMode === "light" && "2px solid black"}
 pos="fixed"
 bottom={0}
+w="100%"
     >
       <HStack w="100%">
         <HStack>
