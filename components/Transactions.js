@@ -18,8 +18,8 @@ import {
   PopoverContent,
   PopoverArrow,
   Skeleton,
-  VStack,
   Stack,
+  HStack,
 } from "@chakra-ui/react";
 import { useDatabaseContext } from "@/firebase/database";
 import moment from "moment/moment";
@@ -33,6 +33,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { BeatLoader } from "react-spinners";
 import { useMediaQuery } from "@chakra-ui/react";
 import CardSkeleton from "./CardSkeleton";
+import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -71,6 +72,7 @@ const Transactions = () => {
   };
 
   //Recharts
+
   const data = {
     datasets: [
       {
@@ -114,64 +116,91 @@ const Transactions = () => {
         </Heading>
         <SimpleGrid column={1} mx={5} spacing={2} mb={5}>
           <StatGroup>
-            <Stat
-              bg={colorMode === "light" ? "statColor1" : "blackAlpha.300"}
-              p={3}
-              borderRadius={5}
-              size="xs"
-              mr={2}
-              border={colorMode === "light" && "2px solid black"}
-            >
-              <StatLabel>
-                <Heading size={{ base: "xs", md: "sm" }}>Income</Heading>
-              </StatLabel>
-              {spinnerStatus ? (
-                <Skeleton height="20px" />
-              ) : (
-                <StatNumber
-                  color={colorMode === "light" ? "#2F855A" : "green.400"}
-                  fontSize={{ md: "28px", lg: "32px" }}
+            <HStack spacing={2} w={"100%"}>
+              <HStack
+                bg={colorMode === "light" ? "statColor1" : "blackAlpha.300"}
+                p={3}
+                borderRadius={10}
+                border={colorMode === "light" && "2px solid black"}
+                w={"50%"}
+              >
+                <Stat size="xs">
+                  <StatLabel>
+                    <Heading size={{ base: "xs", md: "sm" }}>Income</Heading>
+                  </StatLabel>
+                  {spinnerStatus ? (
+                    <Skeleton height="20px" mt={1} />
+                  ) : (
+                    <StatNumber
+                      color={colorMode === "light" ? "#2F855A" : "green.400"}
+                      fontSize={{ md: "28px", lg: "32px" }}
+                    >
+                      {userIncome ? currencyFormmater(userIncome) : 0}
+                    </StatNumber>
+                  )}
+                </Stat>
+                <Box
+                  p={2}
+                  borderRadius={10}
+                  bg={colorMode === "light" ? "green.200" : "whiteAlpha.200"}
                 >
-                  {userIncome ? currencyFormmater(userIncome) : 0}
-                </StatNumber>
-              )}
-            </Stat>
+                  <ArrowDownIcon
+                    boxSize={5}
+                    color={colorMode === "light" ? "green.500" : "green.400"}
+                  />
+                </Box>
+              </HStack>
 
-            <Stat
-              bg={colorMode === "light" ? "statColor2" : "blackAlpha.300"}
-              p={3}
-              borderRadius={5}
-              size="xs"
-              border={colorMode === "light" && "2px solid black"}
-            >
-              <StatLabel>
-                <Heading size={{ base: "xs", md: "sm" }}>Expenses</Heading>
-              </StatLabel>
-              {spinnerStatus ? (
-                <Skeleton height="20px" />
-              ) : (
-                <StatNumber
-                  color={colorMode === "light" ? "red.500" : "red.400"}
-                  fontSize={{ md: "28px", lg: "32px" }}
+              <HStack
+                bg={colorMode === "light" ? "statColor2" : "blackAlpha.300"}
+                p={3}
+                borderRadius={10}
+                border={colorMode === "light" && "2px solid black"}
+                w={"50%"}
+              >
+                <Stat size="xs" w={"50%"}>
+                  <StatLabel>
+                    <Heading size={{ base: "xs", md: "sm" }}>Expenses</Heading>
+                  </StatLabel>
+                  {spinnerStatus ? (
+                    <Skeleton height="20px" mt={1} />
+                  ) : (
+                    <StatNumber
+                      color={colorMode === "light" ? "red.500" : "red.400"}
+                      fontSize={{ md: "28px", lg: "32px" }}
+                    >
+                      {userExpense ? currencyFormmater(userExpense) : 0}
+                    </StatNumber>
+                  )}
+                </Stat>
+                <Box
+                  p={2}
+                  borderRadius={10}
+                  bg={colorMode === "light" ? "red.200" : "whiteAlpha.200"}
                 >
-                  {userExpense ? currencyFormmater(userExpense) : 0}
-                </StatNumber>
-              )}
-            </Stat>
+                  <ArrowUpIcon
+                    boxSize={5}
+                    color={colorMode === "light" ? "red.500" : "red.400"}
+                  />
+                </Box>
+              </HStack>
+            </HStack>
           </StatGroup>
           <Stat
             bg={colorMode === "light" ? "statColor3" : "blackAlpha.300"}
             p={3}
-            borderRadius={5}
+            borderRadius={10}
             border={colorMode === "light" && "2px solid black"}
           >
             <Flex justifyContent="space-between" align="center">
               <Box>
                 <StatLabel>
-                  <Heading size={{ base: "xs", md: "sm" }}>Total</Heading>
+                  <Heading size={{ base: "xs", md: "sm" }}>
+                    Available Balance
+                  </Heading>
                 </StatLabel>
                 {spinnerStatus ? (
-                  <Skeleton height="20px" />
+                  <Skeleton height="20px" mt={1} />
                 ) : (
                   <StatNumber
                     color={
@@ -211,7 +240,13 @@ const Transactions = () => {
               const { amount, category, note, id, time, type } = transaction;
               const createdOn = time?.seconds * 1000;
               return (
-                <Card mx={5} px={{ base: 3, md: 5 }} mb={2} key={id}>
+                <Card
+                  mx={5}
+                  px={{ base: 3, md: 5 }}
+                  mb={2}
+                  key={id}
+                  borderRadius={10}
+                >
                   <Flex
                     justifyContent="space-between"
                     align="center"

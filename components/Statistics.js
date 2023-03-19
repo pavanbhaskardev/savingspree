@@ -130,7 +130,7 @@ const Statistics = () => {
           <>
             <Box
               bg={colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200"}
-              borderRadius="5"
+              borderRadius="10"
               p={2}
               border={colorMode === "light" && "2px solid black"}
             >
@@ -141,7 +141,7 @@ const Statistics = () => {
             </Box>
             <Box
               bg={colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200"}
-              borderRadius="5"
+              borderRadius="10"
               p={2}
               border={colorMode === "light" && "2px solid black"}
             >
@@ -161,7 +161,7 @@ const Statistics = () => {
         {donutIncomeAmount.length ? (
           <Box
             bg={colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200"}
-            borderRadius="5"
+            borderRadius="10"
             p={2}
             border={colorMode === "light" && "2px solid black"}
           >

@@ -122,7 +122,7 @@ const Dashboard = () => {
             mx={5}
             border="2px"
             borderStyle="dashed"
-            borderRadius="5"
+            borderRadius="10"
             borderColor={colorMode === "light" ? "#171923" : "#A0AEC0"}
           >
             <Button
@@ -161,6 +161,7 @@ const Dashboard = () => {
                         key={id}
                         bg={colorMode === "light" && "cardColor"}
                         p={{ base: 3, md: 5 }}
+                        borderRadius={10}
                       >
                         <Flex justifyContent="space-between" align="center">
                           <VStack

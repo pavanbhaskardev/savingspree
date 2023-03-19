@@ -121,7 +121,7 @@ const Navbar = () => {
       zIndex={999}
       backdropFilter="auto"
       backdropBlur="8px"
-      boxShadow="base"
+      borderBottom="2px solid black"
     >
       <HStack>
         <Image src="/logo.svg" h="20px" alt="savingspree_logo" />
