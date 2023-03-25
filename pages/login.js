@@ -33,6 +33,9 @@ import { loginValidation } from "@/validations/UserValidation.js";
 import { BeatLoader } from "react-spinners";
 import { useColorMode } from "@chakra-ui/react";
 import Head from "next/head.js";
+import { getRedirectResult } from "firebase/auth";
+import { useMediaQuery } from "@chakra-ui/react";
+import { auth } from "@/firebase/firebase-config.js";
 
 const Login = () => {
   const emailRef = useRef();
@@ -45,6 +48,7 @@ const Login = () => {
 
   const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
+  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
 
   const {
     userData,
@@ -57,9 +61,21 @@ const Login = () => {
     setErrorStatus,
     successStatus,
     setSuccessStatus,
+    setUserData,
   } = useUserContext();
 
   useEffect(() => {
+    if (isSmallerThan768) {
+      getRedirectResult(auth)
+        .then((response) => {
+          if (response?.user) {
+            setUserData(response?.user);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
     if (userData) {
       router.push("/dashboard");
     }

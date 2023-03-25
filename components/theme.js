@@ -3,7 +3,7 @@ import "@fontsource/roboto";
 
 const theme = extendTheme({
   config: {
-    initialColorMode: "light",
+    initialColorMode: "dark",
     useSystemColorMode: false,
   },
   fonts: {

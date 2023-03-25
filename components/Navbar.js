@@ -85,13 +85,8 @@ const Navbar = () => {
       <>
         {!userData ? (
           <Link href="/" onClick={onClose}>
-            <HStack>
-              <Box
-                p={2}
-                bg={"#bee3f8"}
-                borderRadius="5"
-                mt={{ base: 5, lg: 0 }}
-              >
+            <HStack mt={{ base: 5, lg: 0 }}>
+              <Box p={2} bg={"#bee3f8"} borderRadius="5">
                 <AiFillHome color="#3182ce" />
               </Box>
               <Text>Home</Text>
@@ -121,7 +116,7 @@ const Navbar = () => {
       zIndex={999}
       backdropFilter="auto"
       backdropBlur="8px"
-      borderBottom="2px solid black"
+      borderBottom={colorMode === "light" && "2px solid black"}
     >
       <HStack>
         <Image src="/logo.svg" h="20px" alt="savingspree_logo" />

@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 import { auth } from "./firebase-config";
 import { useRouter } from "next/router";
@@ -35,6 +36,7 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     setIsLoading(true);
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUserData(currentUser);

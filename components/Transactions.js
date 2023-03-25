@@ -119,7 +119,7 @@ const Transactions = () => {
             <HStack spacing={2} w={"100%"}>
               <HStack
                 bg={colorMode === "light" ? "statColor1" : "blackAlpha.300"}
-                p={3}
+                p={{ base: 3, lg: 5 }}
                 borderRadius={10}
                 border={colorMode === "light" && "2px solid black"}
                 w={"50%"}
@@ -145,7 +145,7 @@ const Transactions = () => {
                   bg={colorMode === "light" ? "green.200" : "whiteAlpha.200"}
                 >
                   <ArrowDownIcon
-                    boxSize={5}
+                    boxSize={{ base: 5, lg: 8 }}
                     color={colorMode === "light" ? "green.500" : "green.400"}
                   />
                 </Box>
@@ -153,7 +153,7 @@ const Transactions = () => {
 
               <HStack
                 bg={colorMode === "light" ? "statColor2" : "blackAlpha.300"}
-                p={3}
+                p={{ base: 3, lg: 5 }}
                 borderRadius={10}
                 border={colorMode === "light" && "2px solid black"}
                 w={"50%"}
@@ -179,7 +179,7 @@ const Transactions = () => {
                   bg={colorMode === "light" ? "red.200" : "whiteAlpha.200"}
                 >
                   <ArrowUpIcon
-                    boxSize={5}
+                    boxSize={{ base: 5, lg: 8 }}
                     color={colorMode === "light" ? "red.500" : "red.400"}
                   />
                 </Box>
@@ -188,7 +188,7 @@ const Transactions = () => {
           </StatGroup>
           <Stat
             bg={colorMode === "light" ? "statColor3" : "blackAlpha.300"}
-            p={3}
+            p={{ base: 3, lg: 5 }}
             borderRadius={10}
             border={colorMode === "light" && "2px solid black"}
           >

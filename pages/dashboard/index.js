@@ -258,6 +258,7 @@ const Dashboard = () => {
                     w={{ md: "50vw" }}
                     mx="auto"
                     alt="no_plans_added_image"
+                    loading="lazy"
                   />
                 </Box>
               )}

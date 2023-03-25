@@ -12,12 +12,9 @@ import {
   Button,
   Center,
   Spinner,
-  Flex,
 } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
 import { Footer } from "@/components/Footer";
-import { getRedirectResult } from "firebase/auth";
-import { auth } from "@/firebase/firebase-config";
 import { useMediaQuery } from "@chakra-ui/react";
 
 export default function Home() {
@@ -26,17 +23,6 @@ export default function Home() {
   const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
-    if (isSmallerThan768) {
-      getRedirectResult(auth)
-        .then((response) => {
-          if (response?.user) {
-            setUserData(response?.user);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
     if (userData) {
       router.push("/dashboard");
     }
@@ -121,14 +107,21 @@ export default function Home() {
                 </Button>
               </VStack>
               <Box>
-                <Image src="/dashboard_pic.png" alt="dashboard" />
+                <Image
+                  src="/dashboardPic.png"
+                  alt="dashboard"
+                  borderRadius={10}
+                  height={{ lg: "330px" }}
+                  width={"100%"}
+                  objectFit="cover"
+                />
               </Box>
             </SimpleGrid>
             <SimpleGrid
               spacing={5}
               columns={{ md: 3 }}
-              pb={{ base: 15 }}
-              pt={{ xl: 10 }}
+              pb={{ base: 20 }}
+              pt={{ xl: 20 }}
             >
               <VStack
                 align="start"
@@ -150,6 +143,7 @@ export default function Home() {
                     src="/transactions.png"
                     h={30}
                     alt="transactions-pic"
+                    loading="lazy"
                   />
                 </Box>
                 <Heading size="md">Track your transactions</Heading>
@@ -171,7 +165,12 @@ export default function Home() {
                   bg={"blue.400"}
                   border={colorMode === "light" && "2px solid black"}
                 >
-                  <Image src="/firebase.png" h={30} alt="firebase-pic" />
+                  <Image
+                    src="/firebase.png"
+                    h={30}
+                    alt="firebase-pic"
+                    loading="lazy"
+                  />
                 </Box>
                 <Heading size="md">Secure data on cloud</Heading>
                 <Text>
@@ -195,7 +194,12 @@ export default function Home() {
                   bg={colorMode === "light" ? "yellow.400" : "yellow.500"}
                   border={colorMode === "light" && "2px solid black"}
                 >
-                  <Image src="/bar-chart.png" h={30} alt="bar-chart-pic" />
+                  <Image
+                    src="/bar-chart.png"
+                    h={30}
+                    alt="bar-chart-pic"
+                    loading="lazy"
+                  />
                 </Box>
                 <Heading size="md">Visualize your transactions</Heading>
                 <Text>Different charts are provided for better tracking.</Text>

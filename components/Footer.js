@@ -22,7 +22,12 @@ export const Footer = () => {
     >
       <HStack w="100%">
         <HStack>
-          <Image src="/logo.svg" h="20px" alt="savingspree_logo" />
+          <Image
+            src="/logo.svg"
+            h="20px"
+            alt="savingspree_logo"
+            loading="lazy"
+          />
           <Heading size="sm">Savingspree</Heading>
           <Tag colorScheme="blue" size="sm">
             Beta

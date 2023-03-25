@@ -229,7 +229,13 @@ const PlanName = () => {
             }}
           >
             <Center>
-              <TabList>
+              <TabList
+                bg="whiteAlpha.200"
+                py={2}
+                px={3}
+                borderRadius={99}
+                border={colorMode === "light" && "2px solid black"}
+              >
                 <Tab
                   border={
                     colorMode === "light" && tabIndex === 0
