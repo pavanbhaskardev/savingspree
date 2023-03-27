@@ -8,23 +8,23 @@ import {
   SimpleGrid,
   VStack,
   Text,
-  Image,
   Button,
   Center,
   Spinner,
+  Image,
 } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
-  const { userData, setUserData } = useUserContext();
+  const { userData, isLoading } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {
-    if (userData) {
+    if (!isLoading && userData) {
       router.replace("/dashboard");
     }
-  }, [userData]);
+  }, []);
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -106,12 +106,13 @@ export default function Home() {
               </VStack>
               <Box>
                 <Image
-                  src="/dashboardPic.png"
+                  src="/dashboardPic.webp"
                   alt="dashboard"
                   borderRadius={10}
                   height={{ lg: "330px" }}
                   width={"100%"}
                   objectFit="cover"
+                  loading="eager"
                 />
               </Box>
             </SimpleGrid>
@@ -138,7 +139,7 @@ export default function Home() {
                   border={colorMode === "light" && "2px solid black"}
                 >
                   <Image
-                    src="/transactions.png"
+                    src="/transactions.webp"
                     h={30}
                     alt="transactions-pic"
                     loading="lazy"
@@ -164,7 +165,7 @@ export default function Home() {
                   border={colorMode === "light" && "2px solid black"}
                 >
                   <Image
-                    src="/firebase.png"
+                    src="/firebase.webp"
                     h={30}
                     alt="firebase-pic"
                     loading="lazy"
@@ -193,7 +194,7 @@ export default function Home() {
                   border={colorMode === "light" && "2px solid black"}
                 >
                   <Image
-                    src="/bar-chart.png"
+                    src="/bar-chart.webp"
                     h={30}
                     alt="bar-chart-pic"
                     loading="lazy"

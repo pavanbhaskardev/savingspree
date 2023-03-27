@@ -22,7 +22,7 @@ const useUserContext = () => {
 };
 
 const AppProvider = ({ children }) => {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [errorStatus, setErrorStatus] = useState(false);
@@ -42,7 +42,7 @@ const AppProvider = ({ children }) => {
         setUserData(currentUser);
       } else {
         setUserData("");
-        router.push("/");
+        router.replace("/");
         localStorage.removeItem("docId");
         localStorage.removeItem("planName");
       }

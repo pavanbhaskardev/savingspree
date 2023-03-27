@@ -79,7 +79,7 @@ const Dashboard = () => {
     }
     setAllUserDetails(userData);
     getAllPlans(userData?.uid);
-  }, [userData, userAction]);
+  }, [userAction]);
 
   const handleCreatePlan = () => {
     if (editPlanId.status === true) {
