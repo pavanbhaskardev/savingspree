@@ -77,9 +77,9 @@ const Login = () => {
         });
     }
     if (userData) {
-      router.push("/dashboard");
+      router.replace("/dashboard");
     }
-  }, [userData, router]);
+  }, [userData]);
 
   const handleGoogleSignIn = () => {
     signInWithGoogle();

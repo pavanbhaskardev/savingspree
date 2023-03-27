@@ -15,18 +15,16 @@ import {
 } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
 import { Footer } from "@/components/Footer";
-import { useMediaQuery } from "@chakra-ui/react";
 
 export default function Home() {
   const { userData, setUserData } = useUserContext();
   const router = useRouter();
-  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     if (userData) {
-      router.push("/dashboard");
+      router.replace("/dashboard");
     }
-  }, [userData, router]);
+  }, [userData]);
 
   const { colorMode, toggleColorMode } = useColorMode();
 

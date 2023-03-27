@@ -91,7 +91,7 @@ const PlanName = () => {
 
   useEffect(() => {
     if (!userData) {
-      router.push("/");
+      router.replace("/");
     }
     const id = localStorage.getItem("docId");
     if (id) {

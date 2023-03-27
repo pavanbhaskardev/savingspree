@@ -75,11 +75,11 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!userData) {
-      router.push("/");
+      router.replace("/");
     }
     setAllUserDetails(userData);
     getAllPlans(userData?.uid);
-  }, [userData, userAction, router]);
+  }, [userData, userAction]);
 
   const handleCreatePlan = () => {
     if (editPlanId.status === true) {
