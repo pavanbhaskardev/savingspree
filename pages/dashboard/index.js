@@ -192,7 +192,7 @@ const Dashboard = () => {
                               mt={0}
                               color={colorMode === "dark" && "gray.500"}
                             >
-                              {moment(time).format("MMM Do YY")}
+                              {moment(time).format("MMM Do YYYY")}
                             </Text>
                           </VStack>
                           <Popover>

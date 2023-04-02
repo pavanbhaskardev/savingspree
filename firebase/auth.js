@@ -22,7 +22,7 @@ const useUserContext = () => {
 };
 
 const AppProvider = ({ children }) => {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [errorStatus, setErrorStatus] = useState(false);
