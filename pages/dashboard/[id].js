@@ -32,6 +32,7 @@ import {
   RadioGroup,
   Radio,
   Tooltip,
+  Heading,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
@@ -93,8 +94,9 @@ const PlanName = () => {
     if (!userData) {
       router.replace("/");
     }
-    const id = localStorage.getItem("docId");
-    if (id) {
+
+    if (router.isReady) {
+      const id = router.query.id;
       getAllTransactions(id);
       setDocId(id);
     }

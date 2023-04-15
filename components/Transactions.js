@@ -34,12 +34,15 @@ import { BeatLoader } from "react-spinners";
 import { useMediaQuery } from "@chakra-ui/react";
 import CardSkeleton from "./CardSkeleton";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Transactions = () => {
   const [docId, setDocId] = useState("");
   const [planName, setPlanName] = useState("");
+  const [id, setId] = useState("");
+  const router = useRouter();
 
   const {
     getAllTransactions,
@@ -58,14 +61,19 @@ const Transactions = () => {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
-    const id = localStorage.getItem("docId");
+    // const id = localStorage.getItem("docId");
     const planName = localStorage.getItem("planName");
-    if (id) {
-      setDocId(id);
-      getAllTransactions(id);
-      setPlanName(planName);
+
+    if (router.isReady) {
+      const planId = router.query.id;
+
+      if (planId) {
+        setDocId(planId);
+        getAllTransactions(planId);
+        setPlanName(planName);
+      }
     }
-  }, [userAction]);
+  }, [userAction, router.isReady]);
 
   const handleDeleteTransaction = (id) => {
     deleteTransaction(docId, id);

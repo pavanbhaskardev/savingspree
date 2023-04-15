@@ -118,7 +118,7 @@ const Statistics = () => {
   };
 
   return (
-    <Box h="100vh">
+    <Box h="100vh" pt={6}>
       <SimpleGrid
         columns={{ base: 1, lg: 3 }}
         spacing={3}

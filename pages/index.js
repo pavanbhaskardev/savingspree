@@ -17,11 +17,11 @@ import { useColorMode } from "@chakra-ui/react";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
-  const { userData, isLoading } = useUserContext();
+  const { userData } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && userData) {
+    if (userData) {
       router.replace("/dashboard");
     }
   }, []);

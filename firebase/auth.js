@@ -43,8 +43,8 @@ const AppProvider = ({ children }) => {
       } else {
         setUserData("");
         router.replace("/");
-        localStorage.removeItem("docId");
-        localStorage.removeItem("planName");
+        //removes planName present in local storage
+        localStorage.clear();
       }
       setError("");
       setIsLoading(false);

@@ -43,6 +43,7 @@ import Head from "next/head";
 import CountIndicator from "@/components/CountIndicator";
 import moment from "moment";
 import CardSkeleton from "@/components/CardSkeleton";
+import Link from "next/link";
 
 const Dashboard = () => {
   const [allUserDetails, setAllUserDetails] = useState({});
@@ -76,6 +77,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (!userData) {
       router.replace("/");
+      return;
     }
     setAllUserDetails(userData);
     getAllPlans(userData?.uid);
@@ -164,37 +166,34 @@ const Dashboard = () => {
                         borderRadius={10}
                       >
                         <Flex justifyContent="space-between" align="center">
-                          <VStack
-                            align="start"
-                            width="100%"
-                            onClick={() => {
-                              //used local storage to store plan id so even if refresh is called all data is loaded
-                              localStorage.setItem("docId", id);
-                              localStorage.setItem("planName", planName);
-                              router.push({
-                                pathname: `/dashboard/${id}`,
-                              });
-                            }}
-                            cursor="pointer"
-                          >
-                            <Text
-                              fontSize={{ base: "md", lg: "xl" }}
-                              width={!isLargerThan768 && "200px"}
-                              whiteSpace="nowrap"
-                              overflow="hidden"
-                              textOverflow="ellipsis"
-                              pt={1}
+                          <Link href={`/dashboard/${id}`}>
+                            <VStack
+                              align="start"
+                              width="100%"
+                              onClick={() => {
+                                //used local storage to store plan name
+                                localStorage.setItem("planName", planName);
+                              }}
                             >
-                              {planName}
-                            </Text>
-                            <Text
-                              fontSize="xs"
-                              mt={0}
-                              color={colorMode === "dark" && "gray.500"}
-                            >
-                              {moment(time).format("MMM Do YY")}
-                            </Text>
-                          </VStack>
+                              <Text
+                                fontSize={{ base: "md", lg: "xl" }}
+                                width={!isLargerThan768 && "200px"}
+                                whiteSpace="nowrap"
+                                overflow="hidden"
+                                textOverflow="ellipsis"
+                                pt={1}
+                              >
+                                {planName}
+                              </Text>
+                              <Text
+                                fontSize="xs"
+                                mt={0}
+                                color={colorMode === "dark" && "gray.500"}
+                              >
+                                {moment(time).format("MMM Do YY")}
+                              </Text>
+                            </VStack>
+                          </Link>
                           <Popover>
                             <PopoverTrigger>
                               <IconButton
