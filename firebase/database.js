@@ -11,10 +11,7 @@ import {
   deleteDoc,
   updateDoc,
 } from "firebase/firestore";
-import { useDisclosure } from "@chakra-ui/react";
 import moment from "moment";
-// import { useToast } from "@chakra-ui/react";
-// const getRef = collection(db, "data", "8OOyRCiPmX6fxoNsHClI", "newList");
 
 const databaseContext = createContext();
 
@@ -42,9 +39,6 @@ const DatabaseProvider = ({ children }) => {
   const [donutIncomeCategory, setDonutIncomeCategory] = useState([]);
   const [donutIncomeAmount, setDonutIncomeAmount] = useState([]);
   const [spinnerStatus, setSpinnerStatus] = useState(false);
-
-  // const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const allPlansRef = collection(db, "data");
 
