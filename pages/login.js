@@ -282,7 +282,9 @@ const Login = () => {
                   onClick={handleGoogleSignIn}
                 >
                   <GoogleIcon />
-                  <Text ml={2}>Continue with Google</Text>
+                  <Text ml={2} userSelect="none">
+                    Continue with Google
+                  </Text>
                 </Center>
               </VStack>
             ) : (
