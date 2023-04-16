@@ -75,10 +75,10 @@ const Dashboard = () => {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
-    if (!userData) {
-      router.replace("/");
-      return;
-    }
+    // if (!userData) {
+    //   router.replace("/");
+    //   return;
+    // }
     setAllUserDetails(userData);
     getAllPlans(userData?.uid);
   }, [userAction, userData]);
