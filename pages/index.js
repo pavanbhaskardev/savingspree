@@ -24,7 +24,7 @@ export default function Home() {
     if (userData) {
       router.replace("/dashboard");
     }
-  }, []);
+  }, [userData]);
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -61,7 +61,7 @@ export default function Home() {
         <meta property="og:site_name" content="savingspree" />
       </Head>
       {userData ? (
-        <Center height="50vh">
+        <Center height="80vh">
           <Spinner />
         </Center>
       ) : (

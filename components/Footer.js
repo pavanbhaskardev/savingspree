@@ -13,6 +13,7 @@ import { useColorMode } from "@chakra-ui/react";
 
 export const Footer = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <Stack
       px={{ base: 5, md: 10, lg: 20, xl: 40 }}

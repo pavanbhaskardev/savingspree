@@ -44,7 +44,7 @@ const Statistics = () => {
       {
         label: "Amount",
         data: expensesList,
-        backgroundColor: "transparent",
+        backgroundColor: "#F56565",
         borderColor: "#F56565",
         borderWidth: 3,
         pointBorderColor: "transparent",

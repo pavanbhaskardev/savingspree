@@ -91,9 +91,9 @@ const PlanName = () => {
   });
 
   useEffect(() => {
-    if (!userData) {
-      router.replace("/");
-    }
+    // if (!userData) {
+    //   router.replace("/");
+    // }
 
     if (router.isReady) {
       const id = router.query.id;
