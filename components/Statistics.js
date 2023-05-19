@@ -1,30 +1,8 @@
 import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-
-import { Line } from "react-chartjs-2";
 import { useDatabaseContext } from "@/firebase/database";
-import { SimpleGrid, Box, Heading, Text } from "@chakra-ui/react";
+import { SimpleGrid, Box, Text } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/react";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  ArcElement,
-  Tooltip,
-  Legend
-);
+import { Card, Title, LineChart, BarList } from "@tremor/react";
 
 const Statistics = () => {
   const {
@@ -38,140 +16,100 @@ const Statistics = () => {
 
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const lineChartData = {
-    labels: expensesDateList,
-    datasets: [
-      {
-        label: "Amount",
-        data: expensesList,
-        backgroundColor: "#F56565",
-        borderColor: "#F56565",
-        borderWidth: 3,
-        pointBorderColor: "transparent",
-        tension: 0.3,
-      },
-    ],
-  };
+  //new tremor line chart
+  const myNewData = expensesList?.map((cost, index) => {
+    return {
+      date: expensesDateList[index],
+      cost: cost,
+    };
+  });
 
-  const lineChartOptions = {
-    plugins: {
-      legend: {
-        display: false,
+  //new tremor barlist chart
+  const expensesBarListData = donutExpensesAmount?.map((amount, index) => {
+    return {
+      value: amount,
+      icon: function () {
+        return <Text color={"#f43f5e"}>{donutExpensesCategory[index]}</Text>;
       },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-      },
-    },
-  };
+    };
+  });
+  //sorting expense list into decending order
+  expensesBarListData?.sort((a, b) => {
+    return b.value - a.value;
+  });
 
-  //Donut Chart for Expenses
-  const expenesesChartData = {
-    labels: donutExpensesCategory,
-    datasets: [
-      {
-        data: donutExpensesAmount ? donutExpensesAmount : 0,
-        backgroundColor: [
-          "#F56565",
-          "#ED8936",
-          "#ECC94B",
-          "#BAD7E9",
-          "#EAF6F6",
-          "#FAC213",
-          "#B9C0D5",
-          "#E9E2D0",
-          "#FF87B2",
-          "#FEB139",
-        ],
-        borderWidth: 0,
-        // cutout: "60%",
+  //new tremor barlist chart for income
+  const incomeBarListData = donutIncomeAmount?.map((amount, index) => {
+    return {
+      value: amount,
+      icon: function () {
+        return <Text color={"green.600"}>{donutIncomeCategory[index]}</Text>;
       },
-    ],
-  };
+    };
+  });
+  //sorting income list into decending order
+  incomeBarListData?.sort((a, b) => {
+    return b.value - a.value;
+  });
 
-  const expenesesChartOptions = {
-    // plugins: {
-    //   legend: {
-    //     display: false,
-    //   },
-    // },
-  };
-
-  //Donut Chart for income
-  const incomeChartData = {
-    labels: donutIncomeCategory,
-    datasets: [
-      {
-        data: donutIncomeAmount ? donutIncomeAmount : 0,
-        backgroundColor: ["#4299e1", "#ebf8ff", "#90cdf4", "#3182ce"],
-        borderWidth: 0,
-      },
-    ],
+  const currencyFormmater = (amount) => {
+    return `${new Intl.NumberFormat("hi-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(amount)}`;
   };
 
   return (
     <Box h="100vh" pt={6}>
       <SimpleGrid
-        columns={{ base: 1, lg: 3 }}
+        columns={{ base: 1, lg: 1 }}
         spacing={3}
         maxW={{ base: "100%", md: "2xl", lg: "4xl", xl: "5xl" }}
         mx="auto"
         px={{ base: 3 }}
+        pb={10}
       >
         {donutExpensesAmount.length ? (
-          <>
-            <Box
-              bg={colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200"}
-              borderRadius="10"
-              p={2}
-              border={colorMode === "light" && "2px solid black"}
-            >
-              <Heading size={{ base: "xs", md: "sm" }} ml={2} mb={3}>
-                Expenses Graph
-              </Heading>
-              <Line data={lineChartData} options={lineChartOptions} />
-            </Box>
-            <Box
-              bg={colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200"}
-              borderRadius="10"
-              p={2}
-              border={colorMode === "light" && "2px solid black"}
-            >
-              <Heading size={{ base: "xs", md: "sm" }} ml={2} mb={3}>
-                All Expenses
-              </Heading>
-              <Box w="240px" mx="auto">
-                <Doughnut
-                  data={expenesesChartData}
-                  options={expenesesChartOptions}
-                />
-              </Box>
-            </Box>
-          </>
+          <Card className="bg-inherit">
+            <Title color={colorMode === "dark" && "white"}>
+              Expenses Graph
+            </Title>
+            <LineChart
+              className="mt-6 "
+              data={myNewData}
+              index="date"
+              categories={["cost"]}
+              colors={["rose"]}
+              valueFormatter={currencyFormmater}
+              yAxisWidth={40}
+              showAnimation={true}
+            />
+          </Card>
+        ) : null}
+
+        {donutExpensesAmount.length ? (
+          <Card className="bg-inherit">
+            <Title color={colorMode === "dark" && "white"}>All Expenses</Title>
+            <BarList
+              data={expensesBarListData}
+              valueFormatter={currencyFormmater}
+              className="mt-2"
+              color="red"
+            />
+          </Card>
         ) : null}
 
         {donutIncomeAmount.length ? (
-          <Box
-            bg={colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200"}
-            borderRadius="10"
-            p={2}
-            border={colorMode === "light" && "2px solid black"}
-          >
-            <Heading size={{ base: "xs", md: "sm" }} ml={2} mb={3}>
-              All Income
-            </Heading>
-            <Box w="240px" mx="auto">
-              <Doughnut data={incomeChartData} />
-            </Box>
-          </Box>
+          <Card className="bg-inherit">
+            <Title color={colorMode === "dark" && "white"}>All Income</Title>
+            <BarList
+              data={incomeBarListData}
+              valueFormatter={currencyFormmater}
+              className="mt-2"
+              color="emerald"
+            />
+          </Card>
         ) : null}
       </SimpleGrid>
 

@@ -33,6 +33,7 @@ import {
   Radio,
   Tooltip,
   Heading,
+  Flex,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
@@ -47,6 +48,7 @@ import Statistics from "@/components/Statistics";
 import { useColorMode, useColorModeValue } from "@chakra-ui/react";
 import Head from "next/head";
 import CountIndicator from "@/components/CountIndicator";
+import { useMediaQuery } from "@chakra-ui/react";
 
 const PlanName = () => {
   const router = useRouter();
@@ -58,6 +60,7 @@ const PlanName = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [docId, setDocId] = useState("");
   const [charCount, setCharCount] = useState(0);
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialValues = {
@@ -196,17 +199,6 @@ const PlanName = () => {
     setRadioValue("Income");
   };
 
-  //Recharts
-  const data = {
-    datasets: [
-      {
-        data: [userIncome ? userIncome : 0, userExpense ? userExpense : 0],
-        backgroundColor: ["#48BB78", "#F56565"],
-        borderColor: ["#48BB78", "#F56565"],
-      },
-    ],
-  };
-
   const radioTabColor = useColorModeValue(
     "rgba(0, 0, 0, 0.04)",
     "rgba(255, 255, 255, 0.08)"
@@ -222,7 +214,12 @@ const PlanName = () => {
           <Spinner />
         </Center>
       ) : (
-        <Box bg={colorMode === "light" && "primary"} h="100svh" pt={5}>
+        <Box
+          bg={colorMode === "light" && "primary"}
+          h="100svh"
+          pt={5}
+          overflowY={isLargerThan768 && "scroll"}
+        >
           <Tabs
             variant="soft-rounded"
             colorScheme="blue"
@@ -398,60 +395,62 @@ const PlanName = () => {
                     </form>
                   </ModalContent>
                 </Modal>
-                <Box
-                  pos="fixed"
-                  bottom="0"
-                  w={"100%"}
-                  bg={colorMode === "light" ? "secondary" : "gray.600"}
-                  h={10}
-                  borderTop={colorMode === "light" && "2px solid black"}
-                >
-                  <Center>
-                    <Box
-                      pos="relative"
-                      bottom={7}
-                      onClick={() => {
-                        setModalStatus(true);
-                        setCategoryValues(incomeOptions);
-                      }}
-                    >
-                      <Tooltip hasArrow label="Add transaction">
-                        <IconButton
-                          colorScheme="blue"
-                          aria-label="Add transaction"
-                          icon={<AddIcon />}
-                          borderRadius={99}
-                          size="lg"
-                          border={colorMode === "light" && "2px solid black"}
-                        />
-                      </Tooltip>
-                    </Box>
-                  </Center>
-                  {/* <HStack w={{ lg: "90%" }} mx="auto">
-                    <Button
-                      colorScheme="whatsapp"
-                      width="50%"
-                      onClick={() => {
-                        setModalTitle("Income");
-                        setModalStatus(true);
-                        setCategoryValues(incomeOptions);
-                      }}
-                    >
-                      Add Income🤑
-                    </Button>
-                    <Button
-                      colorScheme="red"
-                      width="50%"
-                      onClick={() => {
-                        setModalTitle("Expense");
-                        setModalStatus(true);
-                        setCategoryValues(expenseOptions);
-                      }}
-                    >
-                      Add Expense💸
-                    </Button>
-                  </HStack> */}
-                </Box>
+                {!isLargerThan768 ? (
+                  <Box
+                    pos="fixed"
+                    bottom="0"
+                    w={"100%"}
+                    bg={colorMode === "light" ? "secondary" : "gray.600"}
+                    h={10}
+                    borderTop={colorMode === "light" && "2px solid black"}
+                  >
+                    <Center>
+                      <Box
+                        pos="relative"
+                        bottom={7}
+                        onClick={() => {
+                          setModalStatus(true);
+                          setCategoryValues(incomeOptions);
+                        }}
+                      >
+                        <Tooltip hasArrow label="Add transaction">
+                          <IconButton
+                            colorScheme="blue"
+                            aria-label="Add transaction"
+                            icon={<AddIcon />}
+                            borderRadius={99}
+                            size="lg"
+                            border={colorMode === "light" && "2px solid black"}
+                          />
+                        </Tooltip>
+                      </Box>
+                    </Center>
+                  </Box>
+                ) : (
+                  <Box
+                    boxShadow="dark-lg"
+                    pos={"fixed"}
+                    bottom={10}
+                    right={10}
+                    zIndex={9999}
+                    onClick={() => {
+                      setModalStatus(true);
+                      setCategoryValues(incomeOptions);
+                    }}
+                    borderRadius={99}
+                  >
+                    <Tooltip hasArrow label="Add transaction">
+                      <IconButton
+                        colorScheme="blue"
+                        aria-label="Add transaction"
+                        icon={<AddIcon />}
+                        borderRadius={99}
+                        size="lg"
+                        border={colorMode === "light" && "2px solid black"}
+                      />
+                    </Tooltip>
+                  </Box>
+                )}
               </TabPanel>
               <TabPanel>
                 <Statistics />

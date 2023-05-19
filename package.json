@@ -23,6 +23,7 @@
     "@fontsource/spline-sans": "^4.5.14",
     "@hookform/resolvers": "^2.9.11",
     "@next/font": "13.1.6",
+    "@tremor/react": "^2.5.0",
     "axios": "^1.2.6",
     "chart.js": "^4.2.1",
     "eslint": "8.32.0",
@@ -39,5 +40,10 @@
     "react-icons": "^4.7.1",
     "react-spinners": "^0.13.8",
     "yup": "^1.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2"
   }
 }

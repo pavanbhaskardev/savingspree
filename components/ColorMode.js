@@ -19,7 +19,7 @@ const ColorMode = () => {
           )
         }
         onClick={() => toggleColorMode()}
-        variant="ghost"
+        // variant="ghost"
       />
     </>
   );

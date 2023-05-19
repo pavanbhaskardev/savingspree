@@ -118,12 +118,12 @@ const Navbar = () => {
       backdropBlur="8px"
       borderBottom={colorMode === "light" && "2px solid black"}
     >
-      <HStack>
+      <HStack onClick={() => redirectUser()} style={{ cursor: "pointer" }}>
         <Image src="/logo.svg" h="20px" alt="savingspree_logo" />
         <Heading
-          onClick={() => redirectUser()}
           size={{ base: "sm" }}
           cursor="pointer"
+          style={userData ? { display: "none" } : { display: "block" }}
         >
           Savingspree
         </Heading>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useUserContext } from "@/firebase/auth";
-import { useRouter } from "next/router";
 import {
   Box,
   Button,
@@ -18,7 +17,6 @@ import {
   Stack,
   Text,
   Card,
-  CardBody,
   Flex,
   Popover,
   PopoverTrigger,
@@ -69,8 +67,6 @@ const Dashboard = () => {
     spinnerStatus,
   } = useDatabaseContext();
   const { colorMode, toggleColorMode } = useColorMode();
-
-  const router = useRouter();
 
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
@@ -124,32 +120,57 @@ const Dashboard = () => {
           <Spinner />
         </Center>
       ) : (
-        <Box bg={colorMode === "light" && "primary"} h="100vh" pt={5}>
+        <Box
+          bg={colorMode === "light" && "primary"}
+          pt={5}
+          overflowY={isLargerThan768 && "scroll"}
+          h={"100svh"}
+        >
           <Box
             maxW={{ base: "100%", sm: "2xl", lg: "4xl", xl: "5xl" }}
             mx="auto"
           >
-            <Box
-              mx={5}
-              border="2px"
-              borderStyle="dashed"
-              borderRadius="10"
-              borderColor={colorMode === "light" ? "#171923" : "#A0AEC0"}
-            >
-              <Button
-                w="100%"
-                leftIcon={<AddIcon />}
-                colorScheme={colorMode === "light" ? "gray" : "blue"}
-                variant="ghost"
-                onClick={() => {
-                  setModalStatus(true);
-                }}
-                bg={colorMode === "light" && "secondary"}
+            {!isLargerThan768 ? (
+              <Box
+                mx={5}
+                border="2px"
+                borderStyle="dashed"
+                borderRadius="10"
+                borderColor={colorMode === "light" ? "#171923" : "#A0AEC0"}
               >
-                Create budget plan💰
-              </Button>
-            </Box>
-
+                <Button
+                  w="100%"
+                  leftIcon={<AddIcon />}
+                  colorScheme={colorMode === "light" ? "gray" : "blue"}
+                  variant="ghost"
+                  onClick={() => {
+                    setModalStatus(true);
+                  }}
+                  bg={colorMode === "light" && "secondary"}
+                >
+                  Create budget plan💰
+                </Button>
+              </Box>
+            ) : (
+              <Box
+                boxShadow="dark-lg"
+                pos={"fixed"}
+                bottom={10}
+                right={10}
+                zIndex={9999}
+                borderRadius={5}
+              >
+                <Button
+                  colorScheme="blue"
+                  onClick={() => {
+                    setModalStatus(true);
+                  }}
+                  leftIcon={<AddIcon />}
+                >
+                  Create Budget Plan
+                </Button>
+              </Box>
+            )}
             {spinnerStatus ? (
               <>
                 <Stack spacing={3} mx={5} mt={5}>
@@ -161,7 +182,7 @@ const Dashboard = () => {
             ) : (
               <>
                 {databaseResponseForAllPlans.length ? (
-                  <VStack px={5} mt={5}>
+                  <VStack px={5} mt={5} mb={20}>
                     {databaseResponseForAllPlans?.map((plansData) => {
                       const { planName, uid, createdOn, id } = plansData;
                       const time = createdOn?.seconds * 1000;
@@ -256,7 +277,7 @@ const Dashboard = () => {
                     })}
                   </VStack>
                 ) : (
-                  <Box px={5} textAlign="center">
+                  <Box px={5} textAlign="center" mt={10}>
                     <Text pt={5} color="gray.500">
                       No plans added📑
                     </Text>
