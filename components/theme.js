@@ -1,5 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
-import "@fontsource/roboto";
+import "@fontsource/inter";
 
 const theme = extendTheme({
   config: {
@@ -7,8 +7,8 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   fonts: {
-    body: "roboto",
-    heading: "roboto",
+    body: "inter",
+    heading: "inter",
   },
   body: {
     fontWeight: "400",
