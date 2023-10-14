@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useUserContext } from "@/firebase/auth";
 import {
   Box,
   Button,
@@ -30,18 +29,19 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
-import { useDatabaseContext } from "@/firebase/database";
+import Link from "next/link";
 import { BsThreeDots } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
 import { BeatLoader } from "react-spinners";
 import { useColorMode } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react";
 import Head from "next/head";
-import CountIndicator from "@/components/CountIndicator";
+import { FaEdit } from "react-icons/fa";
 import moment from "moment";
+import { useDatabaseContext } from "@/firebase/database";
+import CountIndicator from "@/components/CountIndicator";
 import CardSkeleton from "@/components/CardSkeleton";
-import Link from "next/link";
+import { useUserContext } from "@/firebase/auth";
 
 const Dashboard = () => {
   const [allUserDetails, setAllUserDetails] = useState({});
@@ -67,7 +67,6 @@ const Dashboard = () => {
     spinnerStatus,
   } = useDatabaseContext();
   const { colorMode, toggleColorMode } = useColorMode();
-
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
@@ -220,7 +219,7 @@ const Dashboard = () => {
                                   mt={0}
                                   color={colorMode === "dark" && "gray.500"}
                                 >
-                                  {moment(time).format("MMM Do YY")}
+                                  {moment(time).format("DD MMM YYYY")}
                                 </Text>
                               </VStack>
                             </Link>

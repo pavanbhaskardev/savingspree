@@ -32,7 +32,6 @@ export default function Home() {
     <>
       <Head>
         <title>Savingspree</title>
-        <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="challa pavan bhaskar" />

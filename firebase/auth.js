@@ -96,15 +96,20 @@ const AppProvider = ({ children }) => {
   };
 
   const signInWithGoogle = async () => {
-    if (isSmallerThan768) {
-      await signInWithRedirect(auth, provider);
-    } else {
-      try {
-        const response = await signInWithPopup(auth, provider);
-        setUserData(response.user);
-      } catch (error) {
-        console.log("google signin error", error.message);
-      }
+    // if (isSmallerThan768) {
+    //   console.log("i'm hitted");
+    //   const response = await signInWithRedirect(auth, provider);
+    //   console.log({ response });
+    //   return;
+    // }
+
+    try {
+      const response = await signInWithPopup(auth, provider);
+      setUserData(response.user);
+    } catch (error) {
+      console.log(error.message);
+      setErrorStatus(true);
+      setError("Login failed please try again");
     }
   };
 
@@ -158,4 +163,4 @@ const AppProvider = ({ children }) => {
   );
 };
 
-export { AppContext, AppProvider, useUserContext };
+export { AppProvider, useUserContext };

@@ -208,7 +208,9 @@ const DatabaseProvider = ({ children }) => {
       } else if (type === "expense") {
         statisticsForExpense.push(transaction);
         expensesList.push(amount);
-        expensesDateList.push(moment(time.seconds * 1000).format("MMM D, YY"));
+        expensesDateList.push(
+          moment(time.seconds * 1000).format("DD MMM YYYY")
+        );
         expenses = expenses + amount;
       }
     });

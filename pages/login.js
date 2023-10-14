@@ -292,7 +292,7 @@ const Login = () => {
                 p={{ base: 5, sm: 9 }}
                 mt={10}
                 maxW="md"
-                mx="auto"
+                mx={{ base: 5, md: "auto" }}
                 bg={{ base: "transparent", sm: "whiteAlpha.50" }}
                 boxShadow={{ base: "none", sm: "md" }}
                 borderRadius={{ base: "none", sm: "xl" }}

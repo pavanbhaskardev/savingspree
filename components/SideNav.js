@@ -24,8 +24,6 @@ const SideNav = () => {
   const [allPlansTab, setAllPlansTab] = useState();
   const { colorMode, toggleColorMode } = useColorMode();
 
-  console.log("photo", userData?.photoURL);
-
   useEffect(() => {
     setAllPlansTab(
       router.pathname.includes("/dashboard") &&

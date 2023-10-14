@@ -272,7 +272,7 @@ const Transactions = () => {
                           fontSize={{ base: "10px", sm: "12px", lg: "13px" }}
                           color="gray.500"
                         >
-                          {moment(createdOn).format("MMM Do YY")}
+                          {moment(createdOn).format("DD MMM YYYY")}
                         </Text>
                       </Flex>
                       <Text
