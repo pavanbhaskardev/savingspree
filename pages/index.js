@@ -105,7 +105,7 @@ export default function Home() {
               </VStack>
               <Box>
                 <Image
-                  src="/dashboardPic.webp"
+                  src="/mockup.png"
                   alt="dashboard"
                   borderRadius={10}
                   height={{ lg: "330px" }}
